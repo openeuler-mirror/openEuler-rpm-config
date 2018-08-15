@@ -241,8 +241,8 @@
 #%_ld_strict_symbol_defs		1
 %_ld_symbols_flags		%{?_ld_strict_symbol_defs:-Wl,-z,defs}
 
-# use "%define _ld_as_needed 1" to enable.
-#%_ld_as_needed		1
+# use "%undefine _ld_as_needed" to disable.
+%_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
 
 %_general_options         -O2 -g -grecord-gcc-switches -pipe -fstack-protector-strong %[ "%{toolchain}" == "clang" ? "-fgcc-compatible" : "" ]
