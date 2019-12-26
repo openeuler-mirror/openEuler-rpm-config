@@ -1,0 +1,31 @@
+#custom macros
+
+%disable_rpath \
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool \
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+%delete_la_and_a \
+find $RPM_BUILD_ROOT -type f -name "*.la" -delete \
+find $RPM_BUILD_ROOT -type f -name "*.a" -delete
+
+%delete_la  find $RPM_BUILD_ROOT -type f -name "*.la" -delete
+
+%chrpath_delete find $RPM_BUILD_ROOT/ -type f -exec file {} ';' | grep "\<ELF\>" | awk -F ':' '{print $1}' | xargs -i chrpath --delete {}
+
+%package_help        \
+%package        help \
+Summary:        Documents for %{name} \
+Buildarch:      noarch \
+Requires:		man info \
+\
+%description help \
+Man pages and other related documents for %{name}.
+
+#%sbin_installinfo_rm bc.info
+#%sbin_installinfo_rm bc.info.gz
+
+%install_info() \
+/sbin/install-info %1 %{_infodir}/dir || :
+
+%install_info_rm() \
+/sbin/install-info --remove %1 %{_infodir}/dir || :
