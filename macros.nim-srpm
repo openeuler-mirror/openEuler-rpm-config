@@ -1,0 +1,1 @@
+%nim_arches %{ix86} x86_64 %{arm} aarch64 %{power64}
