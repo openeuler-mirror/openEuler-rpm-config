@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	1
+Release:	2
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -88,7 +88,7 @@ install -p -m 755 -t %{buildroot}%{rpmvdir} brp-*
 install -p -m 644 -t %{buildroot}%{rpmvdir} openEuler-*
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
-install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ %{SOURCE11} %{SOURCE12} %{SOURCE13}
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ %{SOURCE10} %{SOURCE11} %{SOURCE12} %{SOURCE13}
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
@@ -104,7 +104,19 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/*
 
 %changelog
-* Thu Dec 26 2019 openEuler Buildteam <buildteam@openeuler.org> 29-20
+* Mon Jan 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-2
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:add source10 to package
+
+* Mon Jan 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-1
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:rebuild
+
+* Thu Dec 26 2019 openEuler Buildteam <buildteam@openeuler.org> - 29-20
 - Type:enhancement
 - ID:NA
 - SUG:NA
