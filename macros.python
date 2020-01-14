@@ -289,3 +289,9 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
 \
     print(url .. first .. '/' .. src .. '/' .. src .. '-' .. ver .. '.' .. ext)
 }
+
+# New python macros
+%__python /usr/bin/python
+%python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; import sys; sys.stdout.write(get_python_lib())")
+%python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; import sys; sys.stdout.write(get_python_lib(1))")
+%python_version %(%{__python} -c "import sys; sys.stdout.write(sys.version[:3])")
