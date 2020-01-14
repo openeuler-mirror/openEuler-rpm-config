@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	4
+Release:	5
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -104,6 +104,12 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/*
 
 %changelog
+* Tue Jan 14 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-5
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:add macros to macros.python
+
 * Mon Jan 13 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-4
 - Type:enhancement
 - ID:NA
