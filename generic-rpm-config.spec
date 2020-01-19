@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	7
+Release:	8
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -104,6 +104,12 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/*
 
 %changelog
+* Sun Jan 19 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-8
+- Type:enhancement
+- ID:NA
+- SUG:NA
+- DESC:revise vendor in macro
+
 * Sun Jan 19 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-7
 - Type:enhancement
 - ID:NA
