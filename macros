@@ -1,6 +1,6 @@
 # Per-platform rpm configuration file.
 
-%_vendor 		%{!?_vendor:openEuler}
+%_vendor 		openEuler
 %_os			linux
 %_target_platform	%{_target_cpu}-%{_vendor}-%{_target_os}%{?_gnu}
 
