@@ -21,6 +21,8 @@
 %_debugsource_packages  1
 #%_debuginfo_subpackages 1
 
+%_build_id_links none
+
 #==============================================================================
 # ---- compiler flags.
 
