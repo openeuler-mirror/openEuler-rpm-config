@@ -16,5 +16,5 @@ kernel_module_package_release	1
 	%define latest_kernel $(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel` | head -n 1) \
 	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
 	%global kverrel %(%{kmodtool} verrel %{?kernel_version} 2>/dev/null) \
-        python3 %{kmodtool} rpmtemplate_kmp %{-n*}%{!-n:%name} %{kverrel} %{-f*}%{!-f:%filelist}  \
+    python3 %{kmodtool} rpmtemplate_kmp %{-n*}%{!-n:%name} %{kverrel} %{-f*}%{!-f:%filelist}  \
 )}
