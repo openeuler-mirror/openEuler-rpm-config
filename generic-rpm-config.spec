@@ -12,11 +12,13 @@ Source2:	rpmrc
 Source3:	macros
 Source4:	config.guess
 Source5:	config.sub
+Source6:	kmodtool.py
 
 Source10:	macros.perl
 Source11:	macros.python
 Source12:	macros.go
 Source13:	macros.forge
+Source14:	macros.kmp
 
 Source20:	openEuler-hardened-cc1
 Source21:       openEuler-hardened-ld
@@ -37,7 +39,6 @@ Provides: perl-srpm-macros
 Provides: rust-srpm-macros
 Provides: go-srpm-macros
 Provides: kernel-rpm-macros
-Obsoletes: kernel-rpm-macros
 Obsoletes: python-rpm-macros
 Obsoletes: python2-rpm-macros
 Obsoletes: python3-rpm-macros
@@ -76,6 +77,12 @@ Provides: system-rpm-config = %{version}-%{release}
 %description
 specific rpm configuration files for %{vendor}.
 
+%package -n kernel-rpm-macros
+Summary: Macros and scripts for building kernel module packages
+
+%description -n kernel-rpm-macros
+Macros and scripts for building kernel module packages.
+
 %prep
 %setup -c -T
 cp -p %{sources} .
@@ -86,9 +93,10 @@ install -p -m 644 -t %{buildroot}%{rpmvdir} macros rpmrc
 install -p -m 755 -t %{buildroot}%{rpmvdir} config.*
 install -p -m 755 -t %{buildroot}%{rpmvdir} brp-*
 install -p -m 644 -t %{buildroot}%{rpmvdir} openEuler-*
+install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool.py
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
-install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ %{SOURCE10} %{SOURCE11} %{SOURCE12} %{SOURCE13}
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ %{SOURCE10} %{SOURCE11} %{SOURCE12} %{SOURCE13} %{SOURCE14}
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
@@ -103,7 +111,14 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/
 %{_rpmconfigdir}/macros.d/*
 
+%files -n kernel-rpm-macros
+%{rpmvdir}/kmodtool.py
+%{_rpmconfigdir}/macros.d/macros.kmp
+
 %changelog
+* Fri June 19 2020 zhangliuyan <zhangliuyan@huawei.com> - 30-11
+- add kmodtool.py macros.kmp
+
 * Wed May 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-10
 - Type:enhancement
 - ID:NA
