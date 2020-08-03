@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	10
+Release:	12
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -24,6 +24,7 @@ Source20:	openEuler-hardened-cc1
 Source21:       openEuler-hardened-ld
 Source22:       openEuler-pie-cc1
 Source23:       openEuler-pie-ld
+SOurce24:       brp-digest-list
 
 Provides: python-rpm-macros = %{version}-%{release}
 Provides: python2-rpm-macros = %{version}-%{release}
@@ -116,7 +117,10 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
-* Wed June 19 2020 zhangliuyan <zhangliuyan@huawei.com> - 30-11
+* Mon Aug 3 2020 Anakin Zhang <benjamin93@163.com> - 30-12
+- add brp-digest-list
+
+* Wed Jun 19 2020 zhangliuyan <zhangliuyan@huawei.com> - 30-11
 - add kmodtool.py macros.kmp
 
 * Wed May 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-10
