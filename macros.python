@@ -177,7 +177,7 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
 }
 
 %py3_install_wheel() %{expand:\\\
-  pip%{python3_version} install -I dist/%{1} --root %{buildroot} --strip-file-prefix %{buildroot} --no-deps
+  pip%{python3_version} install -I dist/%{1} --root %{buildroot}  --no-deps
 }
 # python3_pkgversion specifies the version of Python 3 in the distro.  It can be
 # a specific version (e.g. 34 in Fedora EPEL7)

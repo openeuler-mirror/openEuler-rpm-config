@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	12
+Release:	13
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -117,6 +117,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Aug 6 2020 tianwei <tianwei12@huawei.com> - 30-12
+- delete strip-file-prefix
+
 * Mon Aug 3 2020 Anakin Zhang <benjamin93@163.com> - 30-12
 - add brp-digest-list
 
