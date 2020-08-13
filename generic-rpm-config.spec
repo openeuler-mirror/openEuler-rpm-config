@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	13
+Release:	14
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -40,6 +40,8 @@ Provides: perl-srpm-macros
 Provides: rust-srpm-macros
 Provides: go-srpm-macros
 Provides: kernel-rpm-macros
+Provides: perl-macros
+Obsoletes: perl-macros
 Obsoletes: python-rpm-macros
 Obsoletes: python2-rpm-macros
 Obsoletes: python3-rpm-macros
@@ -117,6 +119,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Aug 13 2020 shenyangyang <shenyangyang4@huawei.com> - 30-13
+- Add provides of perl-macros
+
 * Thu Aug 6 2020 tianwei <tianwei12@huawei.com> - 30-12
 - delete strip-file-prefix
 
