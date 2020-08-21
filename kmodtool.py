@@ -39,7 +39,7 @@ def get_rpmtemplate(kmod_name,verrel):
     print("This package provides the " + kmod_name + " kernel modules built for the Linux")
     print("kernel "+ verrel + " for the %{_target_cpu} family of processors.")
     print("%post          -n kmod-" + kmod_name)
-    print("if [ -e /boot/System.map-" + verrel + "]; then")
+    print("if [ -e /boot/System.map-" + verrel + " ]; then")
     print("   /sbin/depmod -aeF /boot/System.map-" + verrel +" " + verrel +"> /dev/null || :")
     print("fi")
     if (kmp !=""):
