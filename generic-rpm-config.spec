@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	10
+Release:	12
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
@@ -116,6 +116,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Aug 21 2020 Wang Shuo <wangshuo_1994@foxmail.com> - 30-12
+- fix error message for kmodtool
+
 * Fri June 19 2020 zhangliuyan <zhangliuyan@huawei.com> - 30-11
 - add kmodtool.py macros.kmp
 
