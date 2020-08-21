@@ -119,6 +119,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Aug 21 2020 Wang Shuo <wangshuo_1994@foxmail.com> - 30-14
+- fix error message for kmodtool
+
 * Thu Aug 13 2020 shenyangyang <shenyangyang4@huawei.com> - 30-13
 - Add provides of perl-macros
 
