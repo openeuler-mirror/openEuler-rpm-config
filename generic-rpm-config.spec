@@ -2,29 +2,14 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	14
+Release:	15
 License:	GPL+
 Summary:	specific rpm configuration files
-URL:		https://gitee.com/src-openeuler/openEuler-rpm-config
+URL:		https://gitee.com/openeuler/openEuler-rpm-config
 
-Source1:	brp-ldconfig
-Source2:	rpmrc
-Source3:	macros
-Source4:	config.guess
-Source5:	config.sub
-Source6:	kmodtool.py
+Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/archive/%{version}.tar.gz
 
-Source10:	macros.perl
-Source11:	macros.python
-Source12:	macros.go
-Source13:	macros.forge
-Source14:	macros.kmp
-
-Source20:	openEuler-hardened-cc1
-Source21:       openEuler-hardened-ld
-Source22:       openEuler-pie-cc1
-Source23:       openEuler-pie-ld
-SOurce24:       brp-digest-list
+Patch0:         fix-error-message-for-kmodtool.patch
 
 Provides: python-rpm-macros = %{version}-%{release}
 Provides: python2-rpm-macros = %{version}-%{release}
@@ -87,8 +72,7 @@ Summary: Macros and scripts for building kernel module packages
 Macros and scripts for building kernel module packages.
 
 %prep
-%setup -c -T
-cp -p %{sources} .
+%autosetup -n %{name} -p1
 
 %install
 mkdir -p %{buildroot}%{rpmvdir}
@@ -99,7 +83,7 @@ install -p -m 644 -t %{buildroot}%{rpmvdir} openEuler-*
 install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool.py
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
-install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ %{SOURCE10} %{SOURCE11} %{SOURCE12} %{SOURCE13} %{SOURCE14}
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.python macros.go macros.forge macros.kmp
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
@@ -119,6 +103,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Sep 30 2020 shenyangyang <shenyangyang4@huawei.com> - 30-15
+- Change the source code to tar
+
 * Fri Aug 21 2020 Wang Shuo <wangshuo_1994@foxmail.com> - 30-14
 - fix error message for kmodtool
 
