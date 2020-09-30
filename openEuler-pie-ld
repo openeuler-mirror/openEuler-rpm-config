@@ -1,2 +1,0 @@
-*self_spec:
-+ %{!D__KERNEL__:%{!pie:%{!A:%{!fno-pie:%{!fno-PIE:%{!fno-pic:%{!fno-PIC:%{!shared:%{!static:%{!r:%{!nostdlib:%{!nostartfiles:-pie}}}}}}}}}}}}
