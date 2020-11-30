@@ -12,7 +12,7 @@
 # redhat-rpm-macros.
 
 # Define arches for PA and SA
-%golang_arches   %{ix86} x86_64 %{arm} aarch64 ppc64le s390x
+%golang_arches   %{ix86} x86_64 %{arm} aarch64 ppc64le s390x riscv64
 %gccgo_arches    %{mips}
 %go_arches       %{golang_arches} %{gccgo_arches}
 
