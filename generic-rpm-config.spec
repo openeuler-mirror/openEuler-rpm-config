@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	16
+Release:	17
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -11,6 +11,7 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         0001-1-Add-riscv64-to-golang_arches.patch
+Patch2:         Fix-a-typo-in-brp-digest-list.patch
 
 Provides: python-rpm-macros = %{version}-%{release}
 Provides: python2-rpm-macros = %{version}-%{release}
@@ -104,6 +105,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Feb 26 2021 Roberto Sassu <roberto.sassu@huawei.com> - 30-17
+- Fix a typo in brp-digest-list
+
 * Tue Dec 1 2020 whoisxxx <zhangxuzhou4@huawei.com> - 30-16
 - Add riscv64 in macros.go
 
