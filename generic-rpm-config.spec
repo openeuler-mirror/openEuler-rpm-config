@@ -1,8 +1,15 @@
 %global vendor %{?_vendor:%{_vendor}}%{!?_vendor:openEuler}
+%global rpmvdir /usr/lib/rpm/%{vendor}
+# the _change_vendor macro should be defined in the project config of obs
+# or just in this spec if you want to change openEuler to other vendor.
+# If the _change_vendor is 1, it means that it is the first building round for all.
+# rpm packages, so we need both openEuler and the vendor as an transistion.
+# And the others value of _change_vendor indicates that we don't need openEuler anymore.
+%global change_vendor %{?_change_vendor:%{_change_vendor}}%{!?_change_vendor:0}
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	16
+Release:	17
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -12,35 +19,44 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         0001-1-Add-riscv64-to-golang_arches.patch
 
-Provides: python-rpm-macros = %{version}-%{release}
-Provides: python2-rpm-macros = %{version}-%{release}
-Provides: python3-rpm-macros = %{version}-%{release}
-Provides: python-srpm-macros = %{version}-%{release}
-Provides: fpc-srpm-macros
-Provides: ghc-srpm-macros
-Provides: gnat-srpm-macros
-Provides: nim-srpm-macros
-Provides: ocaml-srpm-macros
-Provides: openblas-srpm-macros
-Provides: perl-srpm-macros
-Provides: rust-srpm-macros
-Provides: go-srpm-macros
-Provides: kernel-rpm-macros
-Provides: perl-macros
-Obsoletes: perl-macros
-Obsoletes: python-rpm-macros
-Obsoletes: python2-rpm-macros
-Obsoletes: python3-rpm-macros
-Obsoletes: python-srpm-macros
-Obsoletes: fpc-srpm-macros
-Obsoletes: ghc-srpm-macros
-Obsoletes: gnat-srpm-macros
-Obsoletes: nim-srpm-macros
-Obsoletes: ocaml-srpm-macros
-Obsoletes: openblas-srpm-macros
-Obsoletes: perl-srpm-macros
-Obsoletes: rust-srpm-macros
-Obsoletes: go-srpm-macros
+Patch9000:      openEuler-replace-openEuler-with-_vendor-macro.patch
+%if %{vendor} != openEuler && %{change_vendor} == 1
+Patch9001:      openEuler-fix-brp-ldconfig.patch
+%endif
+
+Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: python3-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: python-srpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: fpc-srpm-macros = 1.1-6
+Provides: ghc-srpm-macros = 1.4.2-8
+Provides: gnat-srpm-macros = 4-6
+Provides: nim-srpm-macros = 1-3
+Provides: ocaml-srpm-macros = 5-4
+Provides: openblas-srpm-macros = 2-4
+Provides: perl-srpm-macros = 1-28
+Provides: rust-srpm-macros = 10-1
+Provides: go-srpm-macros = 2-18
+Provides: perl-macros = 4:5.32.0-1
+Obsoletes: perl-macros <= 4:5.32.0-1
+Obsoletes: python-rpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: python2-rpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: python3-rpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: python-srpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: fpc-srpm-macros <= 1.1-6
+Obsoletes: ghc-srpm-macros <= 1.4.2-8
+Obsoletes: gnat-srpm-macros <= 4-6
+Obsoletes: nim-srpm-macros <= 1-3
+Obsoletes: ocaml-srpm-macros <= 5-4
+Obsoletes: openblas-srpm-macros <= 2-4
+Obsoletes: perl-srpm-macros <= 1-28
+Obsoletes: rust-srpm-macros <= 10-1
+Obsoletes: go-srpm-macros <= 2-18
+
+%if %{vendor} != openEuler
+Provides: openEuler-rpm-config = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: openEuler-rpm-config <= %{?epoch:%{epoch}:}%{version}-%{release}
+%endif
 
 Requires: efi-srpm-macros
 Requires: qt5-srpm-macros
@@ -61,8 +77,6 @@ Conflicts: gcc < 7
 
 Provides: system-rpm-config = %{version}-%{release}
 
-%global rpmvdir /usr/lib/rpm/%{vendor}
-
 %description
 specific rpm configuration files for %{vendor}.
 
@@ -73,7 +87,7 @@ Summary: Macros and scripts for building kernel module packages
 Macros and scripts for building kernel module packages.
 
 %prep
-%autosetup -n %{name} -p1
+%autosetup -n openEuler-rpm-config -p1
 
 %install
 mkdir -p %{buildroot}%{rpmvdir}
@@ -88,22 +102,55 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.p
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
+%if %{vendor} != openEuler
+pushd %{buildroot}%{rpmvdir}
+mv openEuler-hardened-cc1 %{vendor}-hardened-cc1
+mv openEuler-hardened-ld %{vendor}-hardened-ld
+mv openEuler-pie-cc1 %{vendor}-pie-cc1
+mv openEuler-pie-ld %{vendor}-pie-ld
+popd
+
+%if %{change_vendor} == 1
+pushd %{buildroot}%{rpmvdir}/../
+cp -a %{vendor} openEuler
+popd
+
+pushd %{buildroot}/usr/lib/rpm/openEuler
+mv %{vendor}-hardened-cc1 openEuler-hardened-cc1
+mv %{vendor}-hardened-ld openEuler-hardened-ld
+mv %{vendor}-pie-cc1 openEuler-pie-cc1
+mv %{vendor}-pie-ld openEuler-pie-ld
+popd
+%endif
+%endif
+
 %files
 %dir %{rpmvdir}
 %{rpmvdir}/macros
 %{rpmvdir}/rpmrc
 %{rpmvdir}/brp-*
 %{rpmvdir}/config.*
-%{rpmvdir}/openEuler-*
+%if %{vendor} != openEuler && %{change_vendor} == 1
+%exclude %{_prefix}/lib/rpm/openEuler/kmodtool.py
+%{_prefix}/lib/rpm/openEuler/*
+%endif
+%{rpmvdir}/%{vendor}-*
 %{_fileattrsdir}/
 %{_rpmconfigdir}/macros.d/
-%{_rpmconfigdir}/macros.d/*
+%exclude %{_rpmconfigdir}/macros.d/macros.kmp
 
 %files -n kernel-rpm-macros
+%exclude %{_prefix}/lib/rpm/*/__pycache__/*
 %{rpmvdir}/kmodtool.py
+%if %{vendor} != openEuler && %{change_vendor} == 1
+%{_prefix}/lib/rpm/openEuler/kmodtool.py
+%endif
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Mar 11 2021 shenyangyang <shenyangyang4@huawei.com> - 30-17
+- Add for support for change vendor
+
 * Tue Dec 1 2020 whoisxxx <zhangxuzhou4@huawei.com> - 30-16
 - Add riscv64 in macros.go
 
