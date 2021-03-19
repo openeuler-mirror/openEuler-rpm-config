@@ -9,7 +9,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	14
+Release:	15
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -17,11 +17,13 @@ URL:		https://gitee.com/openeuler/openEuler-rpm-config
 Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/archive/%{version}.tar.gz
 
 Patch0:         fix-error-message-for-kmodtool.patch
+Patch2:         Fix-a-typo-in-brp-digest-list.patch
 
 Patch9000:      openEuler-replace-openEuler-with-_vendor-macro.patch
 %if %{vendor} != openEuler && %{change_vendor} == 1
 Patch9001:      openEuler-fix-brp-ldconfig.patch
 %endif
+Patch9002:      openEuler-remove-fexceptions.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -147,6 +149,9 @@ popd
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Mar 19 2021 shenyangyang <shenyangyang4@huawei.com> - 30-15
+- Change the name of spec to openEuler-rpm-spec and fix few bugs
+
 * Wed Mar 17 2021 shenyangyang <shenyangyang4@huawei.com> - 30-14
 - Add for support for change vendor
 
