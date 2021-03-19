@@ -2,7 +2,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	13
+Release:	14
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -10,36 +10,37 @@ URL:		https://gitee.com/openeuler/openEuler-rpm-config
 Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/archive/%{version}.tar.gz
 
 Patch0:         fix-error-message-for-kmodtool.patch
+Patch1:         Fix-a-typo-in-brp-digest-list.patch
+Patch9000:      openEuler-remove-fexceptions.patch
 
-Provides: python-rpm-macros = %{version}-%{release}
-Provides: python2-rpm-macros = %{version}-%{release}
-Provides: python3-rpm-macros = %{version}-%{release}
-Provides: python-srpm-macros = %{version}-%{release}
-Provides: fpc-srpm-macros
-Provides: ghc-srpm-macros
-Provides: gnat-srpm-macros
-Provides: nim-srpm-macros
-Provides: ocaml-srpm-macros
-Provides: openblas-srpm-macros
-Provides: perl-srpm-macros
-Provides: rust-srpm-macros
-Provides: go-srpm-macros
-Provides: kernel-rpm-macros
-Provides: perl-macros
-Obsoletes: perl-macros
-Obsoletes: python-rpm-macros
-Obsoletes: python2-rpm-macros
-Obsoletes: python3-rpm-macros
-Obsoletes: python-srpm-macros
-Obsoletes: fpc-srpm-macros
-Obsoletes: ghc-srpm-macros
-Obsoletes: gnat-srpm-macros
-Obsoletes: nim-srpm-macros
-Obsoletes: ocaml-srpm-macros
-Obsoletes: openblas-srpm-macros
-Obsoletes: perl-srpm-macros
-Obsoletes: rust-srpm-macros
-Obsoletes: go-srpm-macros
+Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: python3-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: python-srpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
+Provides: fpc-srpm-macros = 1.1-6
+Provides: ghc-srpm-macros = 1.4.2-8
+Provides: gnat-srpm-macros = 4-6
+Provides: nim-srpm-macros = 1-3
+Provides: ocaml-srpm-macros = 5-4
+Provides: openblas-srpm-macros = 2-4
+Provides: perl-srpm-macros = 1-28
+Provides: rust-srpm-macros = 10-1
+Provides: go-srpm-macros = 2-18
+Provides: perl-macros = 4:5.32.0-1
+Obsoletes: perl-macros <= 4:5.32.0-1
+Obsoletes: python-rpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: python2-rpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: python3-rpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: python-srpm-macros <= %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes: fpc-srpm-macros <= 1.1-6
+Obsoletes: ghc-srpm-macros <= 1.4.2-8
+Obsoletes: gnat-srpm-macros <= 4-6
+Obsoletes: nim-srpm-macros <= 1-3
+Obsoletes: ocaml-srpm-macros <= 5-4
+Obsoletes: openblas-srpm-macros <= 2-4
+Obsoletes: perl-srpm-macros <= 1-28
+Obsoletes: rust-srpm-macros <= 10-1
+Obsoletes: go-srpm-macros <= 2-18
 
 Requires: efi-srpm-macros
 Requires: qt5-srpm-macros
@@ -103,6 +104,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Mar 19 2021 shenyangyang <shenyangyang4@huawei.com> - 30-14
+- Change the name of spec to openEuler-rpm-spec and fix few bugs
+
 * Wed Sep 30 2020 shenyangyang <shenyangyang4@huawei.com> - 30-13
 - Add provides of perl-macros and change the source code to tar
 
