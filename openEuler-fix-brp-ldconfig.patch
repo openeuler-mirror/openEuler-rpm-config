@@ -16,7 +16,7 @@ index 678136a..7ef0539 100644
  # Build root policy macros. Standard naming:
  # convert all '-' in basename to '_', add two leading underscores.
 -%__brp_ldconfig /usr/lib/rpm/%{_vendor}/brp-ldconfig
-+%__brp_ldconfig /usr/lib/rpm/euleros/brp-ldconfig
++%__brp_ldconfig /usr/lib/rpm/openEuler/brp-ldconfig
  %__brp_compress /usr/lib/rpm/brp-compress
  %__brp_strip /usr/lib/rpm/brp-strip %{__strip}
  %__brp_strip_comment_note /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump}

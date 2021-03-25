@@ -9,7 +9,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	15
+Release:	16
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -149,6 +149,9 @@ popd
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Thu Mar 25 2021 shenyangyang <shenyangyang4@huawei.com> - 30-16
+- Change the wrong hardened coded vendor
+
 * Fri Mar 19 2021 shenyangyang <shenyangyang4@huawei.com> - 30-15
 - Change the name of spec to openEuler-rpm-spec and fix few bugs
 
