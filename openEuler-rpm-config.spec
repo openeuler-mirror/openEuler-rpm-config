@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	19
+Release:	20
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -14,6 +14,7 @@ Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         0001-1-Add-riscv64-to-golang_arches.patch
 Patch2:         Fix-a-typo-in-brp-digest-list.patch
 Patch3:         change-the-openEuler-to-generic-for-common-use.patch
+Patch4:      openEuler-remove-fexceptions.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -110,6 +111,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Mar 29 2021 shenyangyang <shenyangyang4@huawei.com> - 30-20
+- Patched missing patch that remove fexceptions
+
 * Thu Mar 25 2021 shenyangyang <shenyangyang4@huawei.com> - 30-19
 - Modify support for change vendor with better method
 
