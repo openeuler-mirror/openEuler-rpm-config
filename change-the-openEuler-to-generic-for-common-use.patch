@@ -1,15 +1,38 @@
-From 9ddbf9dcb6de021ad796876282796dc409cdb268 Mon Sep 17 00:00:00 2001
+From e9f486a8d9af5b01dcadf8432a449e434cd6886b Mon Sep 17 00:00:00 2001
 From: Yangyang Shen <shenyangyang4@huawei.com>
-Date: Thu, 7 Jan 2021 21:19:58 +0800
-Subject: [PATCH] replace openEuler with %{_vendor} macro
+Date: Sat, 27 Mar 2021 14:18:56 +0800
+Subject: [PATCH] change the openEuler to generic for common use
 
 ---
- macros     | 14 +++++++-------
- macros.kmp |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ openEuler-hardened-cc1 => generic-hardened-cc1 |  0
+ openEuler-hardened-ld => generic-hardened-ld   |  0
+ openEuler-pie-cc1 => generic-pie-cc1           |  0
+ openEuler-pie-ld => generic-pie-ld             |  0
+ macros                                         | 14 +++++++-------
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+ rename openEuler-hardened-cc1 => generic-hardened-cc1 (100%)
+ rename openEuler-hardened-ld => generic-hardened-ld (100%)
+ rename openEuler-pie-cc1 => generic-pie-cc1 (100%)
+ rename openEuler-pie-ld => generic-pie-ld (100%)
 
+diff --git a/openEuler-hardened-cc1 b/generic-hardened-cc1
+similarity index 100%
+rename from openEuler-hardened-cc1
+rename to generic-hardened-cc1
+diff --git a/openEuler-hardened-ld b/generic-hardened-ld
+similarity index 100%
+rename from openEuler-hardened-ld
+rename to generic-hardened-ld
+diff --git a/openEuler-pie-cc1 b/generic-pie-cc1
+similarity index 100%
+rename from openEuler-pie-cc1
+rename to generic-pie-cc1
+diff --git a/openEuler-pie-ld b/generic-pie-ld
+similarity index 100%
+rename from openEuler-pie-ld
+rename to generic-pie-ld
 diff --git a/macros b/macros
-index b06faea..678136a 100644
+index b06faea..ce7cf5c 100644
 --- a/macros
 +++ b/macros
 @@ -52,7 +52,7 @@
@@ -26,7 +49,7 @@ index b06faea..678136a 100644
  # Build root policy macros. Standard naming:
  # convert all '-' in basename to '_', add two leading underscores.
 -%__brp_ldconfig /usr/lib/rpm/openEuler/brp-ldconfig
-+%__brp_ldconfig /usr/lib/rpm/%{_vendor}/brp-ldconfig
++%__brp_ldconfig /usr/lib/rpm/brp-ldconfig
  %__brp_compress /usr/lib/rpm/brp-compress
  %__brp_strip /usr/lib/rpm/brp-strip %{__strip}
  %__brp_strip_comment_note /usr/lib/rpm/brp-strip-comment-note %{__strip} %{__objdump}
@@ -36,8 +59,8 @@ index b06faea..678136a 100644
  # #hardened options
 -%_hardening_cflags	-specs=/usr/lib/rpm/%{_vendor}/openEuler-hardened-cc1
 -%_hardening_ldflags	-Wl,-z,now -specs=/usr/lib/rpm/%{_vendor}/openEuler-hardened-ld
-+%_hardening_cflags	-specs=/usr/lib/rpm/%{_vendor}/%{_vendor}-hardened-cc1
-+%_hardening_ldflags	-Wl,-z,now -specs=/usr/lib/rpm/%{_vendor}/%{_vendor}-hardened-ld
++%_hardening_cflags	-specs=/usr/lib/rpm/generic-hardened-cc1
++%_hardening_ldflags	-Wl,-z,now -specs=/usr/lib/rpm/generic-hardened-ld
  # Use "%undefine _hardened_build" to disable.
  %_hardened_build	1
  %_hardened_cflags	%{?_hardened_build:%{_hardening_cflags}}
@@ -47,31 +70,18 @@ index b06faea..678136a 100644
  %_pie_build     1
 -%_pie_pre_cflags   -specs=/usr/lib/rpm/%{_vendor}/openEuler-pie-cc1
 -%_pie_pre_ldflags  -Wl,-z,now -specs=/usr/lib/rpm/%{_vendor}/openEuler-pie-ld
-+%_pie_pre_cflags   -specs=/usr/lib/rpm/%{_vendor}/%{_vendor}-pie-cc1
-+%_pie_pre_ldflags  -Wl,-z,now -specs=/usr/lib/rpm/%{_vendor}/%{_vendor}-pie-ld
++%_pie_pre_cflags   -specs=/usr/lib/rpm/generic-pie-cc1
++%_pie_pre_ldflags  -Wl,-z,now -specs=/usr/lib/rpm/generic-pie-ld
  %_pie_cflags       %{?_sec_opt_build:?_pie_build:%{_pie_pre_cflags}}
  %_pie_ldflags      %{?_sec_opt_build:?_pie_build:%{_pie_pre_ldflags}}
  
  #Use "%undefine _fs_build" to disable.
  %_fs_build      1
 -%_fs_pre_cflags    -specs=/usr/lib/rpm/%{_vendor}/openEuler-fs-cc1
-+%_fs_pre_cflags    -specs=/usr/lib/rpm/%{_vendor}/%{_vendor}-fs-cc1
++%_fs_pre_cflags    -specs=/usr/lib/rpm/generic-fs-cc1
  %_fs_cflags        %{?_fs_build:%{_fs_pre_cflags}}
  
  
-diff --git a/macros.kmp b/macros.kmp
-index be66e64..2bf977c 100644
---- a/macros.kmp
-+++ b/macros.kmp
-@@ -12,7 +12,7 @@ kernel_module_package_release	1
- 					kernel-devel
- 
- %kernel_module_package(n:v:r:f:) %{expand:%( \
--	%define kmodtool /usr/lib/rpm/openEuler/kmodtool.py\
-+	%define kmodtool /usr/lib/rpm/%{_vendor}/kmodtool.py\
- 	%define latest_kernel $(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel` | head -n 1) \
- 	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
- 	%global kverrel %(%{kmodtool} verrel %{?kernel_version} 2>/dev/null) \
 -- 
 2.23.0
 
