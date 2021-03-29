@@ -1,15 +1,9 @@
 %global vendor %{?_vendor:%{_vendor}}%{!?_vendor:openEuler}
 %global rpmvdir /usr/lib/rpm/%{vendor}
-# the _change_vendor macro should be defined in the project config of obs
-# or just in this spec if you want to change openEuler to other vendor.
-# If the _change_vendor is 1, it means that it is the first building round for all.
-# rpm packages, so we need both openEuler and the vendor as an transistion.
-# And the others value of _change_vendor indicates that we don't need openEuler anymore.
-%global change_vendor %{?_change_vendor:%{_change_vendor}}%{!?_change_vendor:0}
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	15
+Release:	17
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -18,11 +12,8 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         Fix-a-typo-in-brp-digest-list.patch
+Patch2:         change-the-openEuler-to-generic-for-common-use.patch
 
-Patch9000:      openEuler-replace-openEuler-with-_vendor-macro.patch
-%if %{vendor} != openEuler && %{change_vendor} == 1
-Patch9001:      openEuler-fix-brp-ldconfig.patch
-%endif
 Patch9002:      openEuler-remove-fexceptions.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -94,8 +85,8 @@ Macros and scripts for building kernel module packages.
 mkdir -p %{buildroot}%{rpmvdir}
 install -p -m 644 -t %{buildroot}%{rpmvdir} macros rpmrc
 install -p -m 755 -t %{buildroot}%{rpmvdir} config.*
-install -p -m 755 -t %{buildroot}%{rpmvdir} brp-*
-install -p -m 644 -t %{buildroot}%{rpmvdir} openEuler-*
+install -p -m 755 -t %{buildroot}%{_rpmconfigdir} brp-*
+install -p -m 644 -t %{buildroot}%{_rpmconfigdir} generic-*
 install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool.py
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
@@ -103,39 +94,13 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.p
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
-%if %{vendor} != openEuler
-pushd %{buildroot}%{rpmvdir}
-mv openEuler-hardened-cc1 %{vendor}-hardened-cc1
-mv openEuler-hardened-ld %{vendor}-hardened-ld
-mv openEuler-pie-cc1 %{vendor}-pie-cc1
-mv openEuler-pie-ld %{vendor}-pie-ld
-popd
-
-%if %{change_vendor} == 1
-pushd %{buildroot}%{rpmvdir}/../
-cp -a %{vendor} openEuler
-popd
-
-pushd %{buildroot}/usr/lib/rpm/openEuler
-mv %{vendor}-hardened-cc1 openEuler-hardened-cc1
-mv %{vendor}-hardened-ld openEuler-hardened-ld
-mv %{vendor}-pie-cc1 openEuler-pie-cc1
-mv %{vendor}-pie-ld openEuler-pie-ld
-popd
-%endif
-%endif
-
 %files
 %dir %{rpmvdir}
 %{rpmvdir}/macros
 %{rpmvdir}/rpmrc
-%{rpmvdir}/brp-*
+%{_rpmconfigdir}/brp-*
 %{rpmvdir}/config.*
-%if %{vendor} != openEuler && %{change_vendor} == 1
-%exclude %{_prefix}/lib/rpm/openEuler/kmodtool.py
-%{_prefix}/lib/rpm/openEuler/*
-%endif
-%{rpmvdir}/%{vendor}-*
+%{_rpmconfigdir}/generic-*
 %{_fileattrsdir}/
 %{_rpmconfigdir}/macros.d/
 %exclude %{_rpmconfigdir}/macros.d/macros.kmp
@@ -143,12 +108,15 @@ popd
 %files -n kernel-rpm-macros
 %exclude %{_prefix}/lib/rpm/*/__pycache__/*
 %{rpmvdir}/kmodtool.py
-%if %{vendor} != openEuler && %{change_vendor} == 1
-%{_prefix}/lib/rpm/openEuler/kmodtool.py
-%endif
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Mar 26 2021 shenyangyang <shenyangyang4@huawei.com> - 30-17
+- Bump release for bigger than LTS SP1
+
+* Thu Mar 25 2021 shenyangyang <shenyangyang4@huawei.com> - 30-16
+- Modify support for change vendor with better method
+
 * Fri Mar 19 2021 shenyangyang <shenyangyang4@huawei.com> - 30-15
 - Change the name of spec to openEuler-rpm-spec and fix few bugs
 
