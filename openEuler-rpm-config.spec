@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	17
+Release:	18
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -12,6 +12,7 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch2:         Fix-a-typo-in-brp-digest-list.patch
+Patch3:		backport-kmp-feature.patch
 
 Patch9002:      openEuler-remove-fexceptions.patch
 
@@ -81,7 +82,7 @@ install -p -m 644 -t %{buildroot}%{rpmvdir} macros rpmrc
 install -p -m 755 -t %{buildroot}%{rpmvdir} config.*
 install -p -m 755 -t %{buildroot}%{rpmvdir} brp-*
 install -p -m 644 -t %{buildroot}%{rpmvdir} openEuler-*
-install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool.py
+install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
 install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.python macros.go macros.forge macros.kmp
@@ -101,10 +102,13 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 
 %files -n kernel-rpm-macros
 %exclude %{_prefix}/lib/rpm/*/__pycache__/*
-%{rpmvdir}/kmodtool.py
+%{rpmvdir}/kmodtool
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Jun 8 2021 Yang Yanchao <yangyanchao6@huawei.com> - 30-18
+- backport kmp feature
+
 * Thu Mar 25 2021 shenyangyang <shenyangyang4@huawei.com> - 30-17
 - Revert support for change vendor which is integrated on master and LTS Next
 
