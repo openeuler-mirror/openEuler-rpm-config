@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	22
+Release:	23
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -17,6 +17,7 @@ Patch3:         change-the-openEuler-to-generic-for-common-use.patch
 Patch4:         openEuler-remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
+Patch7:         add-common-script.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -96,6 +97,9 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.p
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
+mkdir -p %{buildroot}%{_rpmluadir}/%{_vendor}/{rpm,srpm}
+install -p -m 644 -t %{buildroot}%{_rpmluadir}/%{_vendor} common.lua
+
 %files
 %dir %{rpmvdir}
 %{rpmvdir}/macros
@@ -105,6 +109,7 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/generic-*
 %{_fileattrsdir}/
 %{_rpmconfigdir}/macros.d/
+%{_rpmluadir}/%{_vendor}/*.lua
 %exclude %{_rpmconfigdir}/macros.d/macros.kmp
 
 %files -n kernel-rpm-macros
@@ -113,6 +118,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Wed Oct 13 2021 wangkerong <wangkerong@huawei.com> - 30-23
+- add common lua scripts resolve "%fontpkg" macro translation failure 
+
 * Sat Sep 4 2021 yangmingtai <yangmingtai@huawei.com> - 30-22
 - add brp scripts to delete rpath
 
