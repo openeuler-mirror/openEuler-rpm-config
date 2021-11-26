@@ -1,0 +1,26 @@
+From cec0cb9fbd58016b29a24bbfd365d5ddf7cd614c Mon Sep 17 00:00:00 2001
+From: shixuantong <shixuantong@huawei.com>
+Date: Fri, 26 Nov 2021 13:51:27 +0800
+Subject: [PATCH] update the definition of python3_version, the original
+ definition does not recognize python3-3.10
+
+---
+ macros.python | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/macros.python b/macros.python
+index 34795b5..714cb05 100644
+--- a/macros.python
++++ b/macros.python
+@@ -139,7 +139,7 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
+ %__python3 /usr/bin/python3
+ %python3_sitelib %(%{__python3} -Ic "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+ %python3_sitearch %(%{__python3} -Ic "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+-%python3_version %(%{__python3} -Ic "import sys; sys.stdout.write(sys.version[:3])")
++%python3_version %(%{__python3} -Ic "import sys; sys.stdout.write(str(sys.version_info[0]) + '.' + str(sys.version_info[1]))")
+ %python3_version_nodots %(%{__python3} -Ic "import sys; sys.stdout.write(sys.version[:3].replace('.',''))")
+ %python3_platform %(%{__python3} -Ic "import sysconfig; print(sysconfig.get_platform())")
+ %py3dir %{_builddir}/python3-%{name}-%{version}-%{release}
+-- 
+1.8.3.1
+
