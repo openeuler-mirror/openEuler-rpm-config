@@ -1,0 +1,30 @@
+From 84ed1ab69d4b1e0aea452350d9f2865e8f7c28e7 Mon Sep 17 00:00:00 2001
+From: Miro Hrončok <miro@hroncok.cz>
+Date: Aug 26 2019 13:24:23 +0000
+Subject: Fix %python3_version macros for Python 3.10
+
+
+No need to bump the release, 3.10 is far from now.
+
+Fixes https://bugzilla.redhat.com/show_bug.cgi?id=1745601
+
+---
+
+diff --git a/macros.python b/macros.python
+index 1952aed..a170c4b 100644
+--- a/macros.python
++++ b/macros.python
+@@ -139,8 +139,8 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
+ %__python3 /usr/bin/python3
+ %python3_sitelib %(%{__python3} -Ic "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+ %python3_sitearch %(%{__python3} -Ic "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+-%python3_version %(%{__python3} -Ic "import sys; sys.stdout.write(sys.version[:3])")
+-%python3_version_nodots %(%{__python3} -Ic "import sys; sys.stdout.write(sys.version[:3].replace('.',''))")
++%python3_version %(%{__python3} -Ic "import sys; sys.stdout.write('{0.major}.{0.minor}'.format(sys.version_info))")
++%python3_version_nodots %(%{__python3} -Ic "import sys; sys.stdout.write('{0.major}{0.minor}'.format(sys.version_info))")
+ %python3_platform %(%{__python3} -Ic "import sysconfig; print(sysconfig.get_platform())")
+ %py3dir %{_builddir}/python3-%{name}-%{version}-%{release}
+ 
+-- 
+2.27.0
+

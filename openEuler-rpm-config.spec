@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	24
+Release:	25
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -18,7 +18,7 @@ Patch4:         openEuler-remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         add-common-script.patch
-Patch8:         openEuler-update-the-definition-of-python3_version.patch
+Patch8:         Fix-python3_version-macros-for-Python-3.10.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -119,6 +119,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/%{_vendor} common.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Dec 13 2021 Liu Zixian <liuzixian4@huawei.com> - 30-25
+- fix python macros
+
 * Fri Nov 26 2021 shixuantong <shixuantong@huawei.com> - 30-24
 - update the definition of python3_version
 
