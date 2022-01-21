@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	22
+Release:	23
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -17,6 +17,7 @@ Patch3:         change-the-openEuler-to-generic-for-common-use.patch
 Patch4:         openEuler-remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
+Patch7:         Fix-python3_version-macros-for-Python-3.10.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -47,7 +48,7 @@ Obsoletes: perl-srpm-macros <= 1-28
 Obsoletes: rust-srpm-macros <= 10-1
 Obsoletes: go-srpm-macros <= 2-18
 
-%if %{vendor} != openEuler
+%if "%{vendor}" != "openEuler"
 Provides: openEuler-rpm-config = %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes: openEuler-rpm-config <= %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
@@ -113,6 +114,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Jan 21 2022 Liu Zixian <liuzixian4@huawei.com> - 30-23
+- fix python macros
+
 * Sat Sep 4 2021 yangmingtai <yangmingtai@huawei.com> - 30-22
 - add brp scripts to delete rpath
 
