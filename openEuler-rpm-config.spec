@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	23
+Release:	24
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -18,6 +18,7 @@ Patch4:         openEuler-remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         Fix-python3_version-macros-for-Python-3.10.patch
+Patch10:	0001-update-config.guess-and-config.sub-for-loongarch64.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -114,6 +115,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Apr 26 12 2022 Wenlong Zhang <zhangwenlong@loongson.cn> -30-24
+- update config.guess and config.sub for loongarch64
+
 * Fri Jan 21 2022 Liu Zixian <liuzixian4@huawei.com> - 30-23
 - fix python macros
 
