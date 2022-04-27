@@ -1,0 +1,39 @@
+From fe6cff21eb18cc05704db85520db57c0d58bd2d3 Mon Sep 17 00:00:00 2001
+From: Wenlong Zhang <zhangwenlong@loongson.cn>
+Date: Tue, 12 Apr 2022 22:31:41 +0800
+Subject: [PATCH] update config.guess and config.sub for loongarch64
+
+---
+ macros | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/macros b/macros
+index 5c7447b..dc8c749 100644
+--- a/macros
++++ b/macros
+@@ -49,6 +49,22 @@
+ # ---- configure and makeinstall.
+ %_configure_gnuconfig_hack	1
+ %_configure_libtool_hardening_hack	1
++
++#update config.guess and config.sub
++%_update_config_guess \
++  [ "%_configure_gnuconfig_hack" = 1 ] && for i in $(find . -name config.guess) ; do \
++      [ -f /usr/lib/rpm/%{_vendor}/$(basename $i) ] && \
++      %{__rm} -f $i && \
++      %{__cp} -fv /usr/lib/rpm/%{_vendor}/$(basename $i) $i ; \
++  done ;
++
++%_update_config_sub \
++  [ "%_configure_gnuconfig_hack" = 1 ] && for i in $(find . -name config.sub) ; do \
++      [ -f /usr/lib/rpm/%{_vendor}/$(basename $i) ] && \
++      %{__rm} -f $i && \
++      %{__cp} -fv /usr/lib/rpm/%{_vendor}/$(basename $i) $i ; \
++  done ;
++
+ %configure \
+   %{set_build_flags}; \
+   [ "%_configure_gnuconfig_hack" = 1 ] && for i in $(find $(dirname %{_configure}) -name config.guess -o -name config.sub) ; do \
+-- 
+2.27.0
+
