@@ -1,0 +1,26 @@
+From 4e42a51c2e35614a9d3c8ab1e92d011d6f66f81f Mon Sep 17 00:00:00 2001
+From: Huang Yang <huangyang@loongson.cn>
+Date: Thu, 19 May 2022 03:25:22 +0000
+Subject: [PATCH] openEuler-rpm-config 30 add loongarch64 to the generic_arches
+ macro definition
+
+---
+ macros | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/macros b/macros
+index dc8c749..981140b 100644
+--- a/macros
++++ b/macros
+@@ -241,7 +241,7 @@
+ %pkg_vcmp() (%{expand:%%{pkg_version_cmp %1 %3}} %2 0)
+ 
+ #arches macros
+-%generic_arches %{ix86} x86_64 %{arm} aarch64
++%generic_arches %{ix86} x86_64 %{arm} aarch64 loongarch64
+ %ldc_arches %{generic_arches}
+ %valgrind_arches %{generic_arches}
+ %nodejs_arches %{generic_arches}
+-- 
+2.33.0
+
