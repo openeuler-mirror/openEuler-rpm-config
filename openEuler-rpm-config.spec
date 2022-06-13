@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	25
+Release:	26
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -49,7 +49,7 @@ Obsoletes: perl-srpm-macros <= 1-28
 Obsoletes: rust-srpm-macros <= 10-1
 Obsoletes: go-srpm-macros <= 2-18
 
-%if %{vendor} != openEuler
+%if "%{vendor}" != "openEuler"
 Provides: openEuler-rpm-config = %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes: openEuler-rpm-config <= %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
@@ -119,6 +119,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/%{_vendor} common.lua
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jun 13 2022 yangmingtai <yangmingtai@huawei.com> - 30-26
+- fix build failed, bare words are no longer supported
+
 * Mon Dec 13 2021 Liu Zixian <liuzixian4@huawei.com> - 30-25
 - fix python macros
 
