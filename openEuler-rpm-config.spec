@@ -3,12 +3,19 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	25
+Release:	26
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
 
 Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/archive/%{version}.tar.gz
+
+#for loongarch64
+#2022-04-12
+#curl -sL -o config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+#curl -sL -o config.sub 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+Source1:	config.guess
+Source2:	config.sub
 
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         0001-1-Add-riscv64-to-golang_arches.patch
@@ -18,8 +25,8 @@ Patch4:         openEuler-remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         Fix-python3_version-macros-for-Python-3.10.patch
-Patch10:		0001-update-config.guess-and-config.sub-for-loongarch64.patch
-Patch11:		0001-openEuler-rpm-config-30-add-loongarch64-to-the-gener.patch
+Patch10:        0001-update-config.guess-and-config.sub-for-loongarch64.patch
+Patch11:        0001-openEuler-rpm-config-30-add-loongarch64-to-the-gener.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -85,6 +92,10 @@ Macros and scripts for building kernel module packages.
 
 %prep
 %autosetup -n openEuler-rpm-config -p1
+%ifarch loongarch64
+cp -r %{SOURCE1} .
+cp -r %{SOURCE2} .
+%endif
 
 %install
 mkdir -p %{buildroot}%{rpmvdir}
@@ -116,6 +127,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Jun 13 2022 Huang Yang <huangyang@loongson.cn> -30-26
+- fix update config.guess and config.sub for loongarch64 
+
 * Thu May 19 2022 Huang Yang <huangyang@loongson.cn> -30-25
 - Add loongarch64 to the generic_arches macro definition
 
