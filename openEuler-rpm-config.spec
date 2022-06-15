@@ -164,7 +164,7 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 * Mon Aug 3 2020 Anakin Zhang <benjamin93@163.com> - 30-12
 - add brp-digest-list
 
-* Wed Jun 19 2020 zhangliuyan <zhangliuyan@huawei.com> - 30-11
+* Fri Jun 19 2020 zhangliuyan <zhangliuyan@huawei.com> - 30-11
 - add kmodtool.py macros.kmp
 
 * Wed May 6 2020 openEuler Buildteam <buildteam@openeuler.org> - 30-10
