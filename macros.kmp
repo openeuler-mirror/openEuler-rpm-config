@@ -10,7 +10,7 @@ __find_requires        /usr/lib/rpm/openEuler/find-requires
 #
 
 %kernel_module_package_buildreqs	%global kmodtool_generate_buildreqs 1 \
-					kernel-devel
+					kernel-devel openEuler-rpm-config kernel-rpm-macros
 
 %kernel_module_package(n:v:r:f:p) %{expand:%( \
 	%define kmodtool %{-s*}%{!-s:/usr/lib/rpm/openEuler/kmodtool.py} \
