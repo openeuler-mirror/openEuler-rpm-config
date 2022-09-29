@@ -5,15 +5,15 @@ kernel_module_package_release	1
 __find_requires        /usr/lib/rpm/openEuler/find-requires
 
 
-#kernel_module_package [ -n name ] [ -v version ] [ -r release ] 
-#                      [ -f filelist][-p preamble]   
+#kernel_module_package [ -n name ] [ -v version ] [ -r release ] [ -s script ]
+#                      [ -f filelist] [-p preamble]   
 #
 
 %kernel_module_package_buildreqs	%global kmodtool_generate_buildreqs 1 \
 					kernel-devel
 
 %kernel_module_package(n:v:r:f:p) %{expand:%( \
-	%define kmodtool /usr/lib/rpm/openEuler/kmodtool.py\
+	%define kmodtool %{-s*}%{!-s:/usr/lib/rpm/openEuler/kmodtool.py} \
 	%define latest_kernel $(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel` | head -n 1) \
 	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
 	%global kverrel %(%{kmodtool} verrel %{?kernel_version} 2>/dev/null) \
