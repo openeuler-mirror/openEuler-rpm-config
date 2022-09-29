@@ -14,7 +14,7 @@ __find_requires        /usr/lib/rpm/openEuler/find-requires
 
 %kernel_module_package(n:v:r:f:p) %{expand:%( \
 	%define kmodtool %{-s*}%{!-s:/usr/lib/rpm/openEuler/kmodtool.py} \
-	%define latest_kernel $(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel` | head -n 1) \
+	%global latest_kernel %(rpm -q --qf '%%{VERSION}-%%{RELEASE}.%%{ARCH}' `rpm -qa | egrep "^kernel-devel" | head -n 1`) \
 	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
 	%global kverrel %(%{kmodtool} verrel %{?kernel_version} 2>/dev/null) \
         python3 %{kmodtool} rpmtemplate_kmp %{-n*}%{!-n:%name} %{kverrel} %{-f*}%{!-f:%filelist} %{-p*}%{!-p:%preamble} \
