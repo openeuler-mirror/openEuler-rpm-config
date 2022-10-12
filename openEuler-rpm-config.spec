@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	27
+Release:	28
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -20,6 +20,7 @@ Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         add-common-script.patch
 Patch8:         Fix-python3_version-macros-for-Python-3.10.patch
 Patch9:         Give-a-warning-when-using-kabi-outside-our-stablelis.patch
+Patch10:        fixed-a-bug-that-missing_-p-in-macros.kmp.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -123,6 +124,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/%{_vendor} common.lua
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Oct 12 2022 yangmingtai <yangmingtai@huawei.com> - 30-28
+- macro.kmp support -p preamble
+
 * Thu Sep  8 2022 yangmingtai <yangmingtai@huawei.com> - 30-27
 - add find-requires and find-requires.ksyms
 

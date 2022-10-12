@@ -1,0 +1,37 @@
+From 7629ad0c54cc3970e49b2f78043e0fe1b1c6474d Mon Sep 17 00:00:00 2001
+From: liujing <liujing_yewu@cmss.chinamobile.com>
+Date: Wed, 1 Dec 2021 00:46:20 -0500
+Subject: [PATCH] fixed a bug that missing -p in macros.kmp
+
+---
+ macros.kmp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/macros.kmp b/macros.kmp
+index be66e64..5207045 100644
+--- a/macros.kmp
++++ b/macros.kmp
+@@ -5,17 +5,17 @@ kernel_module_package_release	1
+ 
+ 
+ #kernel_module_package [ -n name ] [ -v version ] [ -r release ] 
+-#                      [ -f filelist]   
++#                      [ -f filelist][-p preamble]   
+ #
+ 
+ %kernel_module_package_buildreqs	%global kmodtool_generate_buildreqs 1 \
+ 					kernel-devel
+ 
+-%kernel_module_package(n:v:r:f:) %{expand:%( \
++%kernel_module_package(n:v:r:f:p) %{expand:%( \
+ 	%define kmodtool /usr/lib/rpm/openEuler/kmodtool.py\
+ 	%define latest_kernel $(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel` | head -n 1) \
+ 	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
+ 	%global kverrel %(%{kmodtool} verrel %{?kernel_version} 2>/dev/null) \
+-        python3 %{kmodtool} rpmtemplate_kmp %{-n*}%{!-n:%name} %{kverrel} %{-f*}%{!-f:%filelist}  \
++        python3 %{kmodtool} rpmtemplate_kmp %{-n*}%{!-n:%name} %{kverrel} %{-f*}%{!-f:%filelist} %{-p*}%{!-p:%preamble} \
+ )}
+ 
+-- 
+2.27.0
+
