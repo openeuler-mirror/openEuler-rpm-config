@@ -1,0 +1,63 @@
+diff -Naur openEuler-rpm-config.org/config.guess openEuler-rpm-config.sw/config.guess
+--- openEuler-rpm-config.org/config.guess	2022-09-28 02:14:20.761824000 +0000
++++ openEuler-rpm-config.sw/config.guess	2022-09-28 02:15:03.761824000 +0000
+@@ -915,6 +915,14 @@
+ 	UNAME_MACHINE=aarch64_be
+ 	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
++    sw_64:Linux:*:*)
++	case `sed -n '/^cpu model/s/^.*: \(.*\)/\1/p' < /proc/cpuinfo` in
++	  sw)   UNAME_MACHINE=sw_64 ;;
++	esac
++	objdump --private-headers /bin/sh | grep -q ld.so.1
++	if test "$?" = 0 ; then LIBC=gnulibc1 ; fi
++	echo ${UNAME_MACHINE}-sunway-linux-${LIBC}
++	exit ;;
+     alpha:Linux:*:*)
+ 	case `sed -n '/^cpu model/s/^.*: \(.*\)/\1/p' < /proc/cpuinfo` in
+ 	  EV5)   UNAME_MACHINE=alphaev5 ;;
+@@ -1459,4 +1467,4 @@
+ # time-stamp-start: "timestamp='"
+ # time-stamp-format: "%:y-%02m-%02d"
+ # time-stamp-end: "'"
+-# End:
+\ No newline at end of file
++# End:
+diff -Naur openEuler-rpm-config.org/config.sub openEuler-rpm-config.sw/config.sub
+--- openEuler-rpm-config.org/config.sub	2022-09-28 02:14:20.761824000 +0000
++++ openEuler-rpm-config.sw/config.sub	2022-09-28 02:24:48.291824000 +0000
+@@ -247,6 +247,7 @@
+ 	# Some are omitted here because they have special meanings below.
+ 	1750a | 580 \
+ 	| a29k \
++	| sw_64 \
+ 	| aarch64 | aarch64_be \
+ 	| alpha | alphaev[4-8] | alphaev56 | alphaev6[78] | alphapca5[67] \
+ 	| alpha64 | alpha64ev[4-8] | alpha64ev56 | alpha64ev6[78] | alpha64pca5[67] \
+@@ -370,6 +371,7 @@
+ 	# Recognize the basic CPU types with company name.
+ 	580-* \
+ 	| a29k-* \
++	| sw_64-* \
+ 	| aarch64-* | aarch64_be-* \
+ 	| alpha-* | alphaev[4-8]-* | alphaev56-* | alphaev6[78]-* \
+ 	| alpha64-* | alpha64ev[4-8]-* | alpha64ev56-* | alpha64ev6[78]-* \
+@@ -1820,4 +1822,4 @@
+ # time-stamp-start: "timestamp='"
+ # time-stamp-format: "%:y-%02m-%02d"
+ # time-stamp-end: "'"
+-# End:
+\ No newline at end of file
++# End:
+diff -Naur openEuler-rpm-config.org/macros openEuler-rpm-config.sw/macros
+--- openEuler-rpm-config.org/macros	2022-09-28 02:14:20.761824000 +0000
++++ openEuler-rpm-config.sw/macros	2022-09-28 02:15:49.081824000 +0000
+@@ -225,7 +225,7 @@
+ %pkg_vcmp() (%{expand:%%{pkg_version_cmp %1 %3}} %2 0)
+ 
+ #arches macros
+-%generic_arches %{ix86} x86_64 %{arm} aarch64
++%generic_arches %{ix86} x86_64 %{arm} aarch64 sw_64
+ %ldc_arches %{generic_arches}
+ %valgrind_arches %{generic_arches}
+ %nodejs_arches %{generic_arches}

@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	25
+Release:	26
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -20,6 +20,7 @@ Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         Fix-python3_version-macros-for-Python-3.10.patch
 Patch8:         Give-a-warning-when-using-kabi-outside-our-stablelis.patch
 Patch9:         fixed-a-bug-that-missing_-p-in-macros.kmp.patch
+Patch10:        openEuler-rpm-config-sw.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -119,6 +120,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Mon Oct 24 2022 wuzx<wuzx1226@qq.com> - 30-26
+- Add sw64 architecture
+
 * Wed Oct 12 2022 yangmingtai <yangmingtai@huawei.com> - 30-25
 - macro.kmp support -p preamble
 
