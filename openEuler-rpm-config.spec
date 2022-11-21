@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	26
+Release:	27
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -21,6 +21,9 @@ Patch7:         Fix-python3_version-macros-for-Python-3.10.patch
 Patch8:         Give-a-warning-when-using-kabi-outside-our-stablelis.patch
 Patch9:         fixed-a-bug-that-missing_-p-in-macros.kmp.patch
 Patch10:        openEuler-rpm-config-sw.patch
+Patch11:        update-config.guess-and-config.sub-for-loongarch64.patch
+Patch12:        add-loongarch64-to-generic_arches.patch
+Patch13:        add-loongarch64-support-for-config.guess-and-config.sub.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -120,6 +123,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Mon Nov 21 2022 huajingyun <huajingyun@loongson.cn> - 30-27
+- add loongarch64 support
+
 * Mon Oct 24 2022 wuzx<wuzx1226@qq.com> - 30-26
 - Add sw64 architecture
 
