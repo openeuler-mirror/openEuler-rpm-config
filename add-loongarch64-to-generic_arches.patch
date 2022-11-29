@@ -1,0 +1,13 @@
+diff --git a/macros b/macros
+index d6b2c80..a66eb2e 100644
+--- a/macros
++++ b/macros
+@@ -241,7 +241,7 @@
+ %pkg_vcmp() (%{expand:%%{pkg_version_cmp %1 %3}} %2 0)
+ 
+ #arches macros
+-%generic_arches %{ix86} x86_64 %{arm} aarch64
++%generic_arches %{ix86} x86_64 %{arm} aarch64 loongarch64
+ %ldc_arches %{generic_arches}
+ %valgrind_arches %{generic_arches}
+ %nodejs_arches %{generic_arches}
