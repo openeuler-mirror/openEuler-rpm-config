@@ -1,15 +1,16 @@
 From e9f486a8d9af5b01dcadf8432a449e434cd6886b Mon Sep 17 00:00:00 2001
 From: Yangyang Shen <shenyangyang4@huawei.com>
 Date: Sat, 27 Mar 2021 14:18:56 +0800
-Subject: [PATCH] change the openEuler to generic for common use
+Subject: [PATCH] change the vendor to generic for common use
 
 ---
  openEuler-hardened-cc1 => generic-hardened-cc1 |  0
  openEuler-hardened-ld => generic-hardened-ld   |  0
  openEuler-pie-cc1 => generic-pie-cc1           |  0
  openEuler-pie-ld => generic-pie-ld             |  0
- macros                                         | 14 +++++++-------
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ macros                                         | 16 ++++++++--------
+ macros.kmp                                     |  2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
  rename openEuler-hardened-cc1 => generic-hardened-cc1 (100%)
  rename openEuler-hardened-ld => generic-hardened-ld (100%)
  rename openEuler-pie-cc1 => generic-pie-cc1 (100%)
@@ -32,9 +33,17 @@ similarity index 100%
 rename from openEuler-pie-ld
 rename to generic-pie-ld
 diff --git a/macros b/macros
-index b06faea..ce7cf5c 100644
+index b06faea..def87a7 100644
 --- a/macros
 +++ b/macros
+@@ -1,6 +1,6 @@
+ # Per-platform rpm configuration file.
+ 
+-%_vendor 		openEuler
++%_vendor 		__vendor
+ %_os			linux
+ %_target_platform	%{_target_cpu}-%{_vendor}-%{_target_os}%{?_gnu}
+ 
 @@ -52,7 +52,7 @@
  %configure \
    %{set_build_flags}; \
@@ -82,6 +91,19 @@ index b06faea..ce7cf5c 100644
  %_fs_cflags        %{?_fs_build:%{_fs_pre_cflags}}
  
  
+diff --git a/macros.kmp b/macros.kmp
+index be66e64..b9ebbe8 100644
+--- a/macros.kmp
++++ b/macros.kmp
+@@ -12,7 +12,7 @@ kernel_module_package_release	1
+ 					kernel-devel
+ 
+ %kernel_module_package(n:v:r:f:) %{expand:%( \
+-	%define kmodtool /usr/lib/rpm/openEuler/kmodtool.py\
++	%define kmodtool /usr/lib/rpm/__vendor/kmodtool.py\
+ 	%define latest_kernel $(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel` | head -n 1) \
+ 	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
+ 	%global kverrel %(%{kmodtool} verrel %{?kernel_version} 2>/dev/null) \
 -- 
-2.23.0
+2.33.0
 

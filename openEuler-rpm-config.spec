@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	27
+Release:	28
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -13,14 +13,14 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         0001-1-Add-riscv64-to-golang_arches.patch
 Patch2:         Fix-a-typo-in-brp-digest-list.patch
-Patch3:         change-the-openEuler-to-generic-for-common-use.patch
-Patch4:         openEuler-remove-fexceptions.patch
+Patch3:         change-the-vendor-to-generic-for-common-use.patch
+Patch4:         remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         Fix-python3_version-macros-for-Python-3.10.patch
 Patch8:         Give-a-warning-when-using-kabi-outside-our-stablelis.patch
 Patch9:         fixed-a-bug-that-missing_-p-in-macros.kmp.patch
-Patch10:        openEuler-rpm-config-sw.patch
+Patch10:        add-sw-arch-support.patch
 Patch11:        update-config.guess-and-config.sub-for-loongarch64.patch
 Patch12:        add-loongarch64-to-generic_arches.patch
 Patch13:        add-loongarch64-support-for-config.guess-and-config.sub.patch
@@ -104,6 +104,9 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.p
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
+# Adaptive according to vendor
+sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir}`
+
 %files
 %dir %{rpmvdir}
 %{rpmvdir}/macros
@@ -123,6 +126,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Nov 30 2022 yangmingtai <yangmingtai@huawei.com> - 30-28
+- support adaptive according to vendor
+
 * Mon Nov 21 2022 huajingyun <huajingyun@loongson.cn> - 30-27
 - add loongarch64 support
 
