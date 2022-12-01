@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	29
+Release:	30
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -13,8 +13,8 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         0001-1-Add-riscv64-to-golang_arches.patch
 Patch2:         Fix-a-typo-in-brp-digest-list.patch
-Patch3:         change-the-openEuler-to-generic-for-common-use.patch
-Patch4:         openEuler-remove-fexceptions.patch
+Patch3:         change-the-vendor-to-generic-for-common-use.patch
+Patch4:         remove-fexceptions.patch
 Patch5:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch6:         add-brp-scripts-to-delete-rpath.patch
 Patch7:         add-common-script.patch
@@ -107,6 +107,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 mkdir -p %{buildroot}%{_rpmluadir}/%{_vendor}/{rpm,srpm}
 install -p -m 644 -t %{buildroot}%{_rpmluadir}/%{_vendor} common.lua
 
+# Adaptive according to vendor
+sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir}`
+
 %files
 %dir %{rpmvdir}
 %{rpmvdir}/macros
@@ -127,6 +130,9 @@ install -p -m 644 -t %{buildroot}%{_rpmluadir}/%{_vendor} common.lua
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Nov 30 2022 yangmingtai <yangmingtai@huawei.com> - 30-30
+- support Adaptive according to vendor
+
 * Mon Nov 21 2022 huajingyun <huajingyun@loongson.cn> - 30-29
 - add loongarch64 support
 
