@@ -134,7 +134,7 @@ index 7cde63f..ee0c126 100644
      %{?__brp_strip_static_archive} \
      %{?py_auto_byte_compile:%{?__brp_python_bytecompile}} \
      %{?__brp_python_hardlink} \
-+    %{?openEuler_delete_rpath:%{?__brp_chrpath}} \
++    %{?__vendor_delete_rpath:%{?__brp_chrpath}} \
  %{nil}
  
  %__spec_install_post\
