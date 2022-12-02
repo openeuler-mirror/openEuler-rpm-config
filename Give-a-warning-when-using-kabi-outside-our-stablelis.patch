@@ -56,8 +56,8 @@ index 0000000..b7cd825
 +    fi
 +done
 +
-+[ -x /usr/lib/rpm/openEuler/find-requires.ksyms ] && [ "$is_kmod" ] &&
-+    printf "%s\n" "${filelist[@]}" | /usr/lib/rpm/openEuler/find-requires.ksyms
++[ -x /usr/lib/rpm/__vendor/find-requires.ksyms ] && [ "$is_kmod" ] &&
++    printf "%s\n" "${filelist[@]}" | /usr/lib/rpm/__vendor/find-requires.ksyms
 +
 +exit 0
 diff --git a/find-requires.ksyms b/find-requires.ksyms
@@ -184,7 +184,7 @@ index 0000000..15cc729
 +            printf "\t$symbol\n" >&2
 +        done
 +        echo "" >&2
-+        echo "openEuler recommends that you consider using only official kernel ABI symbols" >&2
++        echo "__vendor recommends that you consider using only official kernel ABI symbols" >&2
 +        echo "where possible. Requests for additions to the kernel ABI can be filed with" >&2
 +        echo "your partner or customer representative (component: driver-update-program)." >&2
 +        echo "" >&2
@@ -227,11 +227,11 @@ index 5207045..df7e41e 100644
 +++ b/macros.kmp
 @@ -1,7 +1,8 @@
 -# Use these macros to differentiate between RH and other KMP implementation(s).
-+# Use these macros to differentiate between openEuler and other KMP implementation(s).
++# Use these macros to differentiate between __vendor and other KMP implementation(s).
  
  kernel_module_package_release	1
  
-+__find_requires        /usr/lib/rpm/openEuler/find-requires
++__find_requires        /usr/lib/rpm/__vendor/find-requires
  
  
  #kernel_module_package [ -n name ] [ -v version ] [ -r release ] 
