@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	28
+Release:	29
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -24,6 +24,7 @@ Patch10:        add-sw-arch-support.patch
 Patch11:        update-config.guess-and-config.sub-for-loongarch64.patch
 Patch12:        add-loongarch64-to-generic_arches.patch
 Patch13:        add-loongarch64-support-for-config.guess-and-config.sub.patch
+Patch14:        backport-kmp-feature.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -96,7 +97,7 @@ install -p -m 644 -t %{buildroot}%{rpmvdir} macros rpmrc
 install -p -m 755 -t %{buildroot}%{rpmvdir} config.*
 install -p -m 755 -t %{buildroot}%{_rpmconfigdir} brp-*
 install -p -m 644 -t %{buildroot}%{_rpmconfigdir} generic-*
-install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool.py
+install -p -m 755 -t %{buildroot}%{rpmvdir} kmodtool
 install -p -m 755 -t %{buildroot}%{rpmvdir} find-requires*
 
 mkdir -p %{buildroot}%{_rpmconfigdir}/macros.d
@@ -120,12 +121,15 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 
 %files -n kernel-rpm-macros
 %exclude %{_prefix}/lib/rpm/*/__pycache__/*
-%{rpmvdir}/kmodtool.py
+%{rpmvdir}/kmodtool
 %{_rpmconfigdir}/macros.d/macros.kmp
 %{rpmvdir}/find-requires
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Dec 7 2022 Yang Yanchao <yangyanchao6@huawei.com> - 30-29
+- backport kmp feature
+
 * Wed Nov 30 2022 yangmingtai <yangmingtai@huawei.com> - 30-28
 - support adaptive according to vendor
 
