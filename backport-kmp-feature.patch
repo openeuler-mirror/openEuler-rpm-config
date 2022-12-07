@@ -442,7 +442,7 @@ index d46aa04..78c2a57 100644
 +	%define kmodtool %{-s*}%{!-s:/usr/lib/rpm/__vendor/kmodtool} \
 +	%define kmp_version %{-v*}%{!-v:%{version}} \
 +	%define kmp_release %{-r*}%{!-r:%{release}} \
-+	%define latest_kernel %(rpm -q --qf '%{VERSION}-%{RELEASE}\\\\n' `rpm -q kernel-devel | head -n 1` | head -n 1) \
++	%define latest_kernel %(rpm -q --qf '%%{VERSION}-%%{RELEASE}.%%{ARCH}\\\\n' `rpm -q kernel-devel | head -n 1` | head -n 1) \
 +	%{!?kernel_version:%{expand:%%global kernel_version %{latest_kernel}}} \
 +	%global kverrel %(%kmodtool verrel %{?kernel_version} 2>/dev/null) \
 +	flavors="default" \
