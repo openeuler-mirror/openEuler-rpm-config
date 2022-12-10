@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	31
+Release:	32
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -131,6 +131,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Dec 7 2022 yangmingtai <yangmingtai@huawei.com> - 30-32
+- fix latest_kernel macro
+
 * Wed Dec 7 2022 Yang Yanchao <yangyanchao6@huawei.com> - 30-31
 - backport kmp feature
 
