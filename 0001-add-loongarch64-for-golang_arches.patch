@@ -1,0 +1,25 @@
+From 28921237101c986eeee13808a1167db13dc788ce Mon Sep 17 00:00:00 2001
+From: Wenlong Zhang <zhangwenlong@loongson.cn>
+Date: Tue, 13 Dec 2022 12:07:10 +0000
+Subject: [PATCH] add loongarch64 for golang_arches
+
+---
+ macros.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/macros.go b/macros.go
+index cd493e7..f20f6a1 100644
+--- a/macros.go
++++ b/macros.go
+@@ -12,7 +12,7 @@
+ # redhat-rpm-macros.
+ 
+ # Define arches for PA and SA
+-%golang_arches   %{ix86} x86_64 %{arm} aarch64 ppc64le s390x riscv64
++%golang_arches   %{ix86} x86_64 %{arm} aarch64 ppc64le s390x riscv64 loongarch64
+ %gccgo_arches    %{mips}
+ %go_arches       %{golang_arches} %{gccgo_arches}
+ 
+-- 
+2.33.0
+
