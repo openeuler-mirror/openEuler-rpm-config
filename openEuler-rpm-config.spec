@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	33
+Release:	34
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -26,6 +26,7 @@ Patch12:        add-loongarch64-to-generic_arches.patch
 Patch13:	add-loongarch64-support-for-config.guess-and-config.sub.patch
 Patch14:        backport-kmp-feature.patch
 Patch15:	0001-add-loongarch64-for-golang_arches.patch
+Patch16:	fix-config-error-for-loongarch64.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -132,6 +133,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Dec 14 2022 huajingyun <huajingyun@loongson.cn> - 30-34
+- fix config error for loongarch64
+
 * Tue Dec 13 2022 Wenlong Zhang <zhangwenlong@loongson.cn> - 30-33
 - add loongarch64 for golang_arches
 
