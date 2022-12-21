@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	31
+Release:	33
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -25,7 +25,9 @@ Patch11:        update-config.guess-and-config.sub-for-loongarch64.patch
 Patch12:        add-loongarch64-to-generic_arches.patch
 Patch13:        add-loongarch64-support-for-config.guess-and-config.sub.patch
 Patch14:        backport-kmp-feature.patch
-Patch15:	Feature-support-EBS-sign-for-IMA-digest-list.patch
+Patch15:	0001-add-loongarch64-for-golang_arches.patch
+Patch16:	fix-config-error-for-loongarch64.patch
+Patch17:	Feature-support-EBS-sign-for-IMA-digest-list.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -129,8 +131,14 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
-* Mon Dec 12 2022 luhuaxin <luhuaxin1@huawei.com> - 30-31
+* Wed Dec 21 2022 luhuaxin <luhuaxin1@huawei.com> - 30-33
 - add support EBS sign
+
+* Wed Dec 14 2022 huajingyun <huajingyun@loongson.cn> - 30-32
+- fix config error for loongarch64
+
+* Tue Dec 13 2022 Wenlong Zhang <zhangwenlong@loongson.cn> - 30-31
+- add loongarch64 for golang_arches
 
 * Wed Dec 7 2022 yangmingtai <yangmingtai@huawei.com> - 30-30
 - fix latest_kernel macro
