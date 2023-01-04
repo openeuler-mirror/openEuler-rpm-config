@@ -43,7 +43,7 @@ def get_rpmtemplate(kmod_name,verrel):
     print("   /sbin/depmod -aeF /boot/System.map-" + verrel +" " + verrel +"> /dev/null || :")
     print("fi")
     if (kmp !=""):
-        print("modules=( $(find /lib/modules/" + verrel + "/extra/" + kmod_name + ") )")
+        print("modules=( $(find /lib/modules/" + verrel + "/extra/" + kmod_name + "| grep '\\.ko$'" +  ") )")
         print("""if [ -x "/sbin/weak-modules" ]; then
     printf '%s\\n' "${modules[@]}" | /sbin/weak-modules --add-modules
 fi""") 
