@@ -1,0 +1,82 @@
+From 0449160c84daff8c557dee47a970e4f4837ff81d Mon Sep 17 00:00:00 2001
+From: Huaxin Lu <luhuaxin1@huawei.com>
+Date: Mon, 12 Dec 2022 00:16:01 +0800
+Subject: [PATCH] support EBS sign for IMA digest list
+
+Signed-off-by: Huaxin Lu <luhuaxin1@huawei.com>
+---
+ brp-digest-list | 16 ++++++++++++++++
+ brp-ebs-sign    | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 brp-ebs-sign
+
+diff --git a/brp-digest-list b/brp-digest-list
+index e698b7a..9ec50a2 100644
+--- a/brp-digest-list
++++ b/brp-digest-list
+@@ -84,6 +84,22 @@ if [[ "$(basename $BIN_PKG_FILES)" =~ "digest-list-tools" && \
+ 	chmod 644 $f
+ 	echo $f
+ 
++	# do EBS sign
++	export PUBLISHER_HOST=$(grep PUBLISHER_HOST /lkp/scheduled/job.yaml | awk '{print $2}')
++	export PUBLISHER_PORT=$(grep PUBLISHER_PORT /lkp/scheduled/job.yaml | awk '{print $2}')
++	if [[ -n "$PUBLISHER_HOST" && -n "$PUBLISHER_PORT" ]]; then
++		[ -f /usr/lib/rpm/brp-ebs-sign ] || exit 0
++		for f in $(ls $DIGEST_LIST_DIR); do
++			sh /usr/lib/rpm/brp-ebs-sign $DIGEST_LIST_DIR/$f &> /dev/null
++			[ -f $DIGEST_LIST_DIR/$f.sig ] || exit 0
++			chmod 644 $DIGEST_LIST_DIR/$f.sig
++			mv $DIGEST_LIST_DIR/$f.sig $DIGEST_LIST_DIR.sig/$f.sig
++			echo $DIGEST_LIST_DIR.sig/$f.sig
++		done
++		exit 0
++	fi
++
++	# do OBS sign
+ 	[ -f /usr/lib/rpm/brp-suse.d/brp-99-pesign ] || exit 0
+ 
+ 	export BRP_PESIGN_FILES="$2/etc/ima/digest_lists/*"
+diff --git a/brp-ebs-sign b/brp-ebs-sign
+new file mode 100644
+index 0000000..662a9f7
+--- /dev/null
++++ b/brp-ebs-sign
+@@ -0,0 +1,34 @@
++#!/bin/bash
++
++# config
++PUBLISHER_ADDR="http://${PUBLISHER_HOST}:${PUBLISHER_PORT}/sign-files"
++POST_KEY_BASE64="encoded_file_content"
++POST_KEY_MD5="file_md5"
++REQ_KEY_BASE64="signed_file_content"
++REQ_KEY_MD5="signed_file_md5"
++
++# function definition
++get_json_value(){
++	echo "$1" | awk -F "[{,:}]" '{for(i=1;i<NF;i++){if($i~"'$2'"){print $(i+1)}}}' | sed 's/\"//g'
++}
++
++file="$1"
++file_base64="$(base64 -w0 $file)"
++file_md5="$(md5sum $file | awk '{printf $1}')"
++json="{\"$POST_KEY_BASE64\":\"$file_base64\", \"$POST_KEY_MD5\":\"$file_md5\"}"
++
++req="$(curl -X POST "$PUBLISHER_ADDR" -H 'Content-Type: application/json' -d "$json")"
++[ $? -eq 0 ] || { echo "Fail to post sign service, REQ="; echo "req"; exit 1; }
++
++sig_base64=$(get_json_value "$req" "$REQ_KEY_BASE64")
++[ $? -eq 0 ] || { echo "Fail to parser $REQ_KEY_BASE64"; exit 1; }
++echo -e "$sig_base64" | base64 -d > $file.sig
++[ $? -eq 0 ] || { echo "Fail to decode value of $key"; exit 1; }
++
++sig_md5=$(get_json_value "$req" "$REQ_KEY_MD5")
++[ $? -eq 0 ] || { echo "Fail to parser $REQ_KEY_MD5"; exit 1; }
++md5sum $file.sig | grep "$sig_md5"
++[ $? -eq 0 ] || { echo "Fail to check md5 of $file.sig"; exit 1; }
++
++echo "Sign $file ok!"
++exit 0
+-- 
+2.33.0
+
