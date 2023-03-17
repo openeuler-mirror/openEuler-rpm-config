@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	35
+Release:	36
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -135,6 +135,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Fri Mar 17 2023 Xinliang Liu <xinliang.liu@linaro.org> - 30-36
+- Fix kmod rpm install failed.
+
 * Sat Jan 14 2023 luhuaxin <luhuaxin1@huawei.com> - 30-35
 - support EBS sign
 
