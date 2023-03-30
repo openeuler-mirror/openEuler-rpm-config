@@ -1,22 +1,24 @@
-From 22a24809ad1192a89b9d1c795dc3b7c313488f64 Mon Sep 17 00:00:00 2001
+From 3e65c85831be0b8f8e1cd43869b4991a76e14d9b Mon Sep 17 00:00:00 2001
 From: Yang Yanchao <yangyanchao6@huawei.com>
-Date: Wed, 7 Dec 2022 11:34:39 +0800
+Date: Fri, 17 Mar 2023 01:09:09 +0000
 Subject: [PATCH] backport kmp feature
 
+Signed-off-by: Yang Yanchao <yangyanchao6@huawei.com>
+Signed-off-by: Xinliang Liu <xinliang.liu@linaro.org>
 ---
- kmodtool    | 292 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ kmodtool    | 287 ++++++++++++++++++++++++++++++++++++++++++++++++++++
  kmodtool.py |  83 ---------------
- macros.kmp  |  85 +++++++++++----
- 3 files changed, 355 insertions(+), 105 deletions(-)
+ macros.kmp  |  85 ++++++++++++----
+ 3 files changed, 350 insertions(+), 105 deletions(-)
  create mode 100644 kmodtool
  delete mode 100644 kmodtool.py
 
 diff --git a/kmodtool b/kmodtool
 new file mode 100644
-index 0000000..c3217e6
+index 0000000..427d1df
 --- /dev/null
 +++ b/kmodtool
-@@ -0,0 +1,292 @@
+@@ -0,0 +1,287 @@
 +#!/usr/bin/bash
 +
 +# kmodtool - Helper script for building kernel module RPMs
@@ -133,10 +135,6 @@ index 0000000..c3217e6
 +        echo "Release: %{kmp_release}"
 +    fi
 +
-+    if [ ! -z "$kmp" ]; then
-+        echo "%global _use_internal_dependency_generator 0"
-+    fi
-+
 +    cat <<EOF
 +Provides:         kernel-modules = ${verrel}${variant}
 +Provides:         ${kmod_name}-kmod = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -152,8 +150,8 @@ index 0000000..c3217e6
 +#
 +
 +    cat <<EOF
-+Requires(post):   /sbin/depmod
-+Requires(postun): /sbin/depmod
++Requires(post):   /usr/sbin/depmod
++Requires(postun): /usr/sbin/depmod
 +EOF
 +
 +#if [ "no" != "$kmp_nobuildreqs" ]
@@ -212,7 +210,6 @@ index 0000000..c3217e6
 +then
 +    echo "%defattr(644,root,root,755)"
 +    echo "/lib/modules/${verrel}${variant}/"
-+    echo "/lib/firmware/"
 +else
 +    cat "$kmp_override_filelist" | get_filelist
 +fi
@@ -399,7 +396,7 @@ index 75492b9..0000000
 -    exit()
 -
 diff --git a/macros.kmp b/macros.kmp
-index d46aa04..78c2a57 100644
+index d46aa04..8440e26 100644
 --- a/macros.kmp
 +++ b/macros.kmp
 @@ -1,22 +1,63 @@
