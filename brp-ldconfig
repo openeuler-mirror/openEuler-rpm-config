@@ -5,4 +5,12 @@ if [ -z "$RPM_BUILD_ROOT" -o "$RPM_BUILD_ROOT" = "/" ]; then
   exit 0
 fi
 
+riscv64_lp64d=0
+if [ "$HOSTTYPE" = "riscv64" -a -e $RPM_BUILD_ROOT/usr/lib64 -a ! -e $RPM_BUILD_ROOT/usr/lib64/lp64d ]; then
+    ln -s . $RPM_BUILD_ROOT/usr/lib64/lp64d
+    riscv64_lp64d=1
+fi
 /sbin/ldconfig -N -r "$RPM_BUILD_ROOT"
+if [ $riscv64_lp64d = 1 ]; then
+    rm -f $RPM_BUILD_ROOT/usr/lib64/lp64d
+fi
