@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	34
+Release:	35
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -28,6 +28,7 @@ Patch14:        backport-kmp-feature.patch
 Patch15:	0001-add-loongarch64-for-golang_arches.patch
 Patch16:	fix-config-error-for-loongarch64.patch
 Patch17:	Feature-support-EBS-sign-for-IMA-digest-list.patch
+Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -77,6 +78,10 @@ Requires: %{_bindir}/file
 Requires: %{_bindir}/grep
 Requires: %{_bindir}/sed
 Requires: %{_bindir}/xargs
+
+%if "%{_arch}" == "riscv64"
+Requires: coreutils
+%endif
 
 # -fstack-clash-protection and -fcf-protection require GCC 8.
 Conflicts: gcc < 7
@@ -131,6 +136,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Mon Apr 10 2023 laokz <zhangkai@iscas.ac.cn> - 30-35
+- fix riscv64 default library directory of brp-ldconfig
+
 * Tue Mar 28 2023 Xinliang Liu <xinliang.liu@linaro.org> - 30-34
 - Fix kmod install failed.
 
