@@ -1,0 +1,41 @@
+From b16ce81ae43c1e702beb1351ee9891e3e3f697e6 Mon Sep 17 00:00:00 2001
+From: caodongxia <315816521@qq.com>
+Date: Thu, 13 Apr 2023 17:11:53 +0800
+Subject: [PATCH] add pyproject macros
+
+---
+ macros.python | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/macros.python b/macros.python
+index d504d3f..d5a7a86 100644
+--- a/macros.python
++++ b/macros.python
+@@ -28,6 +28,12 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
+   sleep 1
+ }
+ 
++%pyproject_build() %{expand:\\\
++  CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}"\\\
++  %{__python3} -mpip wheel --verbose --progress-bar off --disable-pip-version-check --use-pep517 --no-build-isolation --no-deps --wheel-dir ./build .  %{?*}
++  sleep 1
++}
++
+ %py_build_egg() %{expand:\\\
+   CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}"\\\
+   %{__python} %{py_setup} %{?py_setup_args} bdist_egg %{?*}
+@@ -45,6 +51,11 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
+   %{__python} %{py_setup} %{?py_setup_args} install -O1 --skip-build --root %{buildroot} %{?*}
+ }
+ 
++%pyproject_install() %{expand:\\\
++  CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}"\\\
++  %{__python3} -mpip install --verbose --progress-bar off --disable-pip-version-check   --root %{buildroot} --no-compile --ignore-installed --no-deps --no-index --find-links ./build  %{?*}
++}
++
+ %py_install_egg() %{expand:\\\
+   mkdir -p %{buildroot}%{python_sitelib}
+   easy_install -m --prefix %{buildroot}%{_prefix} -Z dist/*-py%{python_version}.egg %{?*}
+-- 
+2.23.0
+
