@@ -4,8 +4,8 @@ Date: Thu, 13 Apr 2023 17:11:53 +0800
 Subject: [PATCH] add pyproject macros
 
 ---
- macros.python | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ macros.python | 12 +++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/macros.python b/macros.python
 index d504d3f..d5a7a86 100644
@@ -24,13 +24,14 @@ index d504d3f..d5a7a86 100644
  %py_build_egg() %{expand:\\\
    CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}"\\\
    %{__python} %{py_setup} %{?py_setup_args} bdist_egg %{?*}
-@@ -45,6 +51,11 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
+@@ -45,6 +51,12 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
    %{__python} %{py_setup} %{?py_setup_args} install -O1 --skip-build --root %{buildroot} %{?*}
  }
  
 +%pyproject_install() %{expand:\\\
++  specifier=$(ls ./build/*.whl | xargs basename --multiple | sed -E 's/([^-]+)-([^-]+)-.+\\\.whl/\\\1==\\\2/')
 +  CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}"\\\
-+  %{__python3} -mpip install --verbose --progress-bar off --disable-pip-version-check   --root %{buildroot} --no-compile --ignore-installed --no-deps --no-index --find-links ./build  %{?*}
++  %{__python3} -mpip install --verbose --progress-bar off --disable-pip-version-check   --root %{buildroot} --no-compile --ignore-installed --no-deps --no-index --find-links ./build $specifier %{?*}
 +}
 +
  %py_install_egg() %{expand:\\\

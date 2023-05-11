@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	38
+Release:	39
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -141,6 +141,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Thu May 11 2023 caodongxia <caodongxia@h-partners.com> - 30-39
+- improve pyproject_install macro
+
 * Thu Apr 20 2023 caodongxia <caodongxia@h-partners.com> - 30-38
 - support pyproject compilation
 
