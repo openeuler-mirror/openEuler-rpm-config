@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	39
+Release:	40
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -30,6 +30,7 @@ Patch16:	fix-config-error-for-loongarch64.patch
 Patch17:	Feature-support-EBS-sign-for-IMA-digest-list.patch
 Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
 Patch19:        add-pyproject-macros.patch
+Patch20:        add-pytest-and-tox-macros.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -141,6 +142,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Mon Jul 24 2023 Dongxing Wang <dxwangk@isoftstone.com> - 30-40
+- add pytest and tox macros
+
 * Thu May 11 2023 caodongxia <caodongxia@h-partners.com> - 30-39
 - improve pyproject_install macro
 

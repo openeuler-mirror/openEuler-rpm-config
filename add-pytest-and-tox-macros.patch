@@ -1,0 +1,42 @@
+From 2f7b74e83fc52d326d5db7de2bcfab2c8d921f29 Mon Sep 17 00:00:00 2001
+From: desert-sailor <dxwangk@isoftstone.com>
+Date: Mon, 24 Jul 2023 11:36:52 +0800
+Subject: [PATCH] add pytest and tox macros
+
+---
+ macros.python | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/macros.python b/macros.python
+index 1cc6e70..334c0ab 100644
+--- a/macros.python
++++ b/macros.python
+@@ -304,3 +304,25 @@ find $bytecode_compilation_path -type f -a -name "*.py" -print0 | xargs -0 $pyth
+ %python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; import sys; sys.stdout.write(get_python_lib())")
+ %python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; import sys; sys.stdout.write(get_python_lib(1))")
+ %python_version %(%{__python} -c "import sys; sys.stdout.write(sys.version[:3])")
++
++# New python test macros
++%pytest() %{expand:\\\
++CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\
++PATH="%{buildroot}%{_bindir}:$PATH" \\
++PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
++PYTHONDONTWRITEBYTECODE=1 \\
++%{?__pytest_addopts:PYTEST_ADDOPTS="${PYTEST_ADDOPTS:-} %{__pytest_addopts}"} \\
++PYTEST_XDIST_AUTO_NUM_WORKERS=%{_smp_build_ncpus} \\
++%{_bindir}/pytest %{?*}
++}
++
++%tox() %{expand:\\\
++TOX_TESTENV_PASSENV="${TOX_TESTENV_PASSENV:-*}" \\
++CFLAGS="${CFLAGS:-${RPM_OPT_FLAGS}}" LDFLAGS="${LDFLAGS:-${RPM_LD_FLAGS}}" \\
++PATH="%{buildroot}%{_bindir}:$PATH" \\
++PYTHONPATH="${PYTHONPATH:-%{buildroot}%{python3_sitearch}:%{buildroot}%{python3_sitelib}}" \\
++PYTHONDONTWRITEBYTECODE=1 \\
++%{?__pytest_addopts:PYTEST_ADDOPTS="${PYTEST_ADDOPTS:-} %{__pytest_addopts}"} \\
++PYTEST_XDIST_AUTO_NUM_WORKERS=%{_smp_build_ncpus} \\
++%{__python3} -m tox -e py%{python3_version_nodots} --current-env %{?*}
++}
+-- 
+2.33.0
+
