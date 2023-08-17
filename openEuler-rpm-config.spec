@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	40
+Release:	41
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -31,6 +31,7 @@ Patch17:	Feature-support-EBS-sign-for-IMA-digest-list.patch
 Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
 Patch19:        add-pyproject-macros.patch
 Patch20:        add-pytest-and-tox-macros.patch
+Patch21:        Backport-Add-support-for-selecting-a-clang-as-a-tool.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -142,6 +143,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-41
+- Backport Add support for selecting a clang as a tool
+
 * Mon Jul 24 2023 Dongxing Wang <dxwangk@isoftstone.com> - 30-40
 - add pytest and tox macros
 
