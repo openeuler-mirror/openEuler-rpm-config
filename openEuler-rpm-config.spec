@@ -32,6 +32,7 @@ Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
 Patch19:        add-pyproject-macros.patch
 Patch20:        add-pytest-and-tox-macros.patch
 Patch21:        Backport-Add-support-for-selecting-a-clang-as-a-tool.patch
+Patch22:        Backport-Call-set_build_flags-before-build-check-and.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -143,6 +144,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-41
+- Backport Call %%set_build_flags before %%build, %%check, and %%install stages
+
 * Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-41
 - Backport Add support for selecting a clang as a tool
 
