@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	41
+Release:	42
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -144,7 +144,7 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
-* Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-41
+* Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-42
 - Backport Call %%set_build_flags before %%build, %%check, and %%install stages
 
 * Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-41
