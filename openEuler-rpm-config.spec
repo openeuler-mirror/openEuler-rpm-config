@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	42
+Release:	43
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -31,8 +31,6 @@ Patch17:	Feature-support-EBS-sign-for-IMA-digest-list.patch
 Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
 Patch19:        add-pyproject-macros.patch
 Patch20:        add-pytest-and-tox-macros.patch
-Patch21:        Backport-Add-support-for-selecting-a-clang-as-a-tool.patch
-Patch22:        Backport-Call-set_build_flags-before-build-check-and.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -144,6 +142,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Mon Aug 28 2023 liyunfei <liyunfei33@huawei.com> - 30-43
+- Revert backport toolchain selecting and %%auto_set_build_flags patches
+
 * Thu Aug 17 2023 liyunfei <liyunfei33@huawei.com> - 30-42
 - Backport Call %%set_build_flags before %%build, %%check, and %%install stages
 
