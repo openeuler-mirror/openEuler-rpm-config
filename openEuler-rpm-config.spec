@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	18
+Release:	19
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -46,7 +46,7 @@ Obsoletes: perl-srpm-macros <= 1-28
 Obsoletes: rust-srpm-macros <= 10-1
 Obsoletes: go-srpm-macros <= 2-18
 
-%if %{vendor} != openEuler
+%if "%{vendor}" != "openEuler"
 Provides: openEuler-rpm-config = %{?epoch:%{epoch}:}%{version}-%{release}
 Obsoletes: openEuler-rpm-config <= %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
@@ -112,6 +112,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Oct 16 2023 xiasenlin <xiasenlin1@huawei.com> - 30-19
+- fix build failed, bare words are no longer supported
+
 * Mon Oct 11 2021 zhangtianxing <zhangtianxing3@huawei.com> - 30-18
 - exclude kernel source and EFI files in digest list building
 
