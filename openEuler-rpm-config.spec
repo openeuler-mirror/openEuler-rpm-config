@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	33
+Release:	34
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -129,6 +129,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Thu Nov 2 2023 Yang Yanchao <yangyanchao6@huawei.com> - 30-34
+- kmodtool: use tmp.$$ instand of tmp.txt
+
 * Thu Mar 30 2023 Xinliang Liu <xinliang.liu@linaro.org> - 30-33
 - Fix kmod install failed.
 
