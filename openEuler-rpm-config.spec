@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	35
+Release:	36
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -136,6 +136,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Thu Nov 2 2023 Yang Yanchao <yangyanchao6@huawei.com> - 30-36
+- kmodtool: use tmp.$$ instand of tmp.txt
+
 * Mon Apr 10 2023 laokz <zhangkai@iscas.ac.cn> - 30-35
 - fix riscv64 default library directory of brp-ldconfig
 
