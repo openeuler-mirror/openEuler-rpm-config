@@ -399,7 +399,7 @@ diff --git a/macros.kmp b/macros.kmp
 index d46aa04..8440e26 100644
 --- a/macros.kmp
 +++ b/macros.kmp
-@@ -1,22 +1,63 @@
+@@ -1,22 +1,64 @@
 -# Use these macros to differentiate between __vendor and other KMP implementation(s).
 -
 -kernel_module_package_release	1
@@ -462,7 +462,8 @@ index d46aa04..8440e26 100644
 +		flavors_to_build="%*" \
 +	else \
 +		flavors_to_build=" $flavors "\
-+		echo "[$flavors_to_build]" >/tmp/tmp.txt
++		rm -rf /tmp/tmp.$$ \
++		echo "[$flavors_to_build]" >/tmp/tmp.$$ \
 +		for i in %* \
 +		do \
 +			flavors_to_build=${flavors_to_build//$i /}

@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	43
+Release:	44
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -142,6 +142,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Thu Nov 2 2023 Yang Yanchao <yangyanchao6@huawei.com> - 30-44
+- kmodtool: use tmp.$$ instand of tmp.txt
+
 * Mon Aug 28 2023 liyunfei <liyunfei33@huawei.com> - 30-43
 - Revert backport toolchain selecting and %%auto_set_build_flags patches
 
