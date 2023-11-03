@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	18
+Release:	19
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -13,6 +13,7 @@ Source0:        https://gitee.com/openeuler/openEuler-rpm-config/repository/arch
 Patch0:         fix-error-message-for-kmodtool.patch
 Patch2:         Fix-a-typo-in-brp-digest-list.patch
 Patch3:		backport-kmp-feature.patch
+Patch4:		check-if-the-file-is-a-symbolic-link-in-brp-digest-list.patch
 
 Patch9002:      openEuler-remove-fexceptions.patch
 
@@ -106,6 +107,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Nov 03 2023 fuanan <fuanan3@h-partners.com> - 30-19
+- check if the file is a symbolic link in brp-digest-list
+
 * Tue Jun 8 2021 Yang Yanchao <yangyanchao6@huawei.com> - 30-18
 - backport kmp feature
 
