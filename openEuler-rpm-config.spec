@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	36
+Release:	37
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -29,6 +29,7 @@ Patch15:	0001-add-loongarch64-for-golang_arches.patch
 Patch16:	fix-config-error-for-loongarch64.patch
 Patch17:	Feature-support-EBS-sign-for-IMA-digest-list.patch
 Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
+Patch19:        check-if-the-file-is-a-symbolic-link-in-brp-digest-list.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -136,6 +137,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Fri Nov 03 2023 fuanan <fuanan3@h-partners.com> - 30-37
+- check if the file is a symbolic link in brp-digest-list
+
 * Thu Nov 2 2023 Yang Yanchao <yangyanchao6@huawei.com> - 30-36
 - kmodtool: use tmp.$$ instand of tmp.txt
 
