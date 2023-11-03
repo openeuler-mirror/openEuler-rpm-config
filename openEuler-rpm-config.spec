@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	18
+Release:	19
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -14,6 +14,7 @@ Patch0:         fix-error-message-for-kmodtool.patch
 Patch1:         Fix-a-typo-in-brp-digest-list.patch
 Patch2:         change-the-openEuler-to-generic-for-common-use.patch
 Patch3:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
+Patch4:         check-if-the-file-is-a-symbolic-link-in-brp-digest-list.patch
 
 Patch9002:      openEuler-remove-fexceptions.patch
 
@@ -112,6 +113,9 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Nov 03 2023 fuanan <fuanan3@h-partners.com> - 30-19
+- check if the file is a symbolic link in brp-digest-list
+
 * Mon Oct 11 2021 zhangtianxing <zhangtianxing3@huawei.com> - 30-18
 - exclude kernel source and EFI files in digest list building
 
