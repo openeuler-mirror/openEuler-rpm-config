@@ -1,0 +1,25 @@
+From 0eea7318489474d20e391cc55eb81f2a642e36f8 Mon Sep 17 00:00:00 2001
+From: gaoyusong <gaoyusong2@huawei.com>
+Date: Fri, 3 Nov 2023 10:55:26 +0800
+Subject: [PATCH] check if the file is a symbolic link in brp-digest-list
+
+---
+ brp-digest-list | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/brp-digest-list b/brp-digest-list
+index 9ec50a2..77248c9 100644
+--- a/brp-digest-list
++++ b/brp-digest-list
+@@ -18,7 +18,7 @@ cat - > $BIN_PKG_FILES
+ trap "rm -f \"${BIN_PKG_FILES}\"" 0 2 3 5 10 13 15
+ 
+ # File empty, exit
+-if [ -z $(head -c 1 $BIN_PKG_FILES) ]; then
++if [ -L $BIN_PKG_FILES ] || [ -z $(head -c 1 $BIN_PKG_FILES) ]; then
+ 	exit 0
+ fi
+ 
+-- 
+2.27.0
+
