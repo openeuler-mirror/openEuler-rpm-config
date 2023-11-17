@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	20
+Release:	21
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -16,7 +16,9 @@ Patch2:         change-the-openEuler-to-generic-for-common-use.patch
 Patch3:         exclude-kernel-source-and-EFI-files-in-digest-list-building.patch
 Patch4:         check-if-the-file-is-a-symbolic-link-in-brp-digest-list.patch
 
-Patch9002:      openEuler-remove-fexceptions.patch
+Patch9000:      openEuler-remove-fexceptions.patch
+Patch9001:      fix-the-ELF-file-cannot-be-found-due-to-escape-of.patch
+Patch9002:      add-brp-scripts-to-delete-rpath.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -113,6 +115,10 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Fri Nov 17 2023 xujing <xujing125@huawei.com> - 30-21
+- add brp script to delete rpath
+  fix the ELF file cannot be found due to escape of '\'
+
 * Fri Nov 03 2023 fuanan <fuanan3@h-partners.com> - 30-20
 - check if the file is a symbolic link in brp-digest-list
 
