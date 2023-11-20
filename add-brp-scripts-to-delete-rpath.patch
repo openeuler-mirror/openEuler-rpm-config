@@ -1,4 +1,4 @@
-From bfd075e7478e87bed1fa0b3b7508a5ba8542c239 Mon Sep 17 00:00:00 2001
+From 3f8ed7eb46f9863f461a8abcdb1fe2c4de505900 Mon Sep 17 00:00:00 2001
 From: gaoyi <gaoyi15@huawei.com>
 Date: Fri, 6 Mar 2020 06:04:41 -0500
 Subject: [PATCH] add brp scripts to delete rpath
@@ -6,22 +6,23 @@ Subject: [PATCH] add brp scripts to delete rpath
 Signed-off-by: gaoyi <gaoyi15@huawei.com>
 Signed-off-by: xujing <xujing125@huawei.com>
 ---
- brp-chrpath | 103 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ brp-chrpath | 104 ++++++++++++++++++++++++++++++++++++++++++++++++++++
  macros      |   2 +
- 2 files changed, 105 insertions(+)
+ 2 files changed, 106 insertions(+)
  create mode 100755 brp-chrpath
 
 diff --git a/brp-chrpath b/brp-chrpath
 new file mode 100755
-index 0000000..6dd37de
+index 0000000..dc48351
 --- /dev/null
 +++ b/brp-chrpath
-@@ -0,0 +1,103 @@
+@@ -0,0 +1,104 @@
 +#!/usr/bin/sh
 +# remove rpath specified
 +
 +rpathSuffix=(
-+	"/home/abuild/rpmbuild/BUILD"
++	"/home/abuild/rpmbuild/BUILD",
++	"/home/lkp/rpmbuild/BUILD"
 +)
 +
 +rpath=(
@@ -121,7 +122,7 @@ index 0000000..6dd37de
 +
 +exit 0
 diff --git a/macros b/macros
-index 36621df..104556b 100644
+index 7cde63f..5eb7f18 100644
 --- a/macros
 +++ b/macros
 @@ -89,6 +89,7 @@
@@ -136,7 +137,7 @@ index 36621df..104556b 100644
      %{?__brp_strip_static_archive} \
      %{?py_auto_byte_compile:%{?__brp_python_bytecompile}} \
      %{?__brp_python_hardlink} \
-+    %{?openeuler_delete_rpath:%{?__brp_chrpath}} \
++    %{?__vendor_delete_rpath:%{?__brp_chrpath}} \
  %{nil}
  
  %__spec_install_post\
