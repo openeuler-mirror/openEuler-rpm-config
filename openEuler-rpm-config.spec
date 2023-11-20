@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	21
+Release:	22
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -98,6 +98,9 @@ install -p -m 644 -t %{buildroot}%{_rpmconfigdir}/macros.d/ macros.perl macros.p
 
 mkdir -p %{buildroot}%{_fileattrsdir}
 
+# Adaptive according to vendor
+sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir}`
+
 %files
 %dir %{rpmvdir}
 %{rpmvdir}/macros
@@ -115,6 +118,10 @@ mkdir -p %{buildroot}%{_fileattrsdir}
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Mon Nov 20 2023 xujing <xujing125@huawei.com> - 30-22
+- add the scanning path of the rpath
+  use vendor name to determine whether to delete rpath
+
 * Fri Nov 17 2023 xujing <xujing125@huawei.com> - 30-21
 - add brp script to delete rpath
   fix the ELF file cannot be found due to escape of '\'
