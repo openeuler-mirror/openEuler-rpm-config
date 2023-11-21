@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	22
+Release:	23
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -118,6 +118,9 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{_rpmconfigdir}/macros.d/macros.kmp
 
 %changelog
+* Tue Nov 21 2023 xujing <xujing125@huawei.com> - 30-23
+- excute brp_chrpath before arch_install_post
+
 * Mon Nov 20 2023 xujing <xujing125@huawei.com> - 30-22
 - add the scanning path of the rpath
   use vendor name to determine whether to delete rpath
