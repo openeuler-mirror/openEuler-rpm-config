@@ -1,0 +1,25 @@
+From 4e1adcc36b0c2e379d6080ceb874f2413644c535 Mon Sep 17 00:00:00 2001
+From: xujing <xujing125@huawei.com>
+Date: Wed, 15 Nov 2023 17:16:22 +0800
+Subject: [PATCH] fix the ELF file cannot be found due to escape of '\'
+
+---
+ macros | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/macros b/macros
+index 7cde63f..36621df 100644
+--- a/macros
++++ b/macros
+@@ -275,7 +275,7 @@ find $RPM_BUILD_ROOT -type f -name "*.a" -delete
+ 
+ %delete_la  find $RPM_BUILD_ROOT -type f -name "*.la" -delete
+ 
+-%chrpath_delete find $RPM_BUILD_ROOT/ -type f -exec file {} ';' | grep "\<ELF\>" | awk -F ':' '{print $1}' | xargs -i chrpath --delete {}
++%chrpath_delete find $RPM_BUILD_ROOT/ -type f -exec file {} ';' | grep "\\<ELF\\>" | awk -F ':' '{print $1}' | xargs -i chrpath --delete {}
+ 
+ %package_help        \
+ %package        help \
+-- 
+2.33.0
+
