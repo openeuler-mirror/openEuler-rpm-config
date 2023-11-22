@@ -3,7 +3,7 @@
 
 Name:		%{vendor}-rpm-config
 Version:	30
-Release:	45
+Release:	46
 License:	GPL+
 Summary:	specific rpm configuration files
 URL:		https://gitee.com/openeuler/openEuler-rpm-config
@@ -32,6 +32,7 @@ Patch18:        fix-brp-ldconfig-riscv-default-library-directory.patch
 Patch19:        add-pyproject-macros.patch
 Patch20:        add-pytest-and-tox-macros.patch
 Patch21:        check-if-the-file-is-a-symbolic-link-in-brp-digest-list.patch
+Patch22:	fix-the-ELF-file-cannot-be-found-due-to-escape-of.patch
 
 Provides: python-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides: python2-rpm-macros = %{?epoch:%{epoch}:}%{version}-%{release}
@@ -143,6 +144,11 @@ sed -i "s/__vendor/%{vendor}/g" `grep "__vendor" -rl %{buildroot}%{_rpmconfigdir
 %{rpmvdir}/find-requires.ksyms
 
 %changelog
+* Wed Nov 22 2023 xujing <xujing125@huawei.com> - 30-46
+- add the scanning path of the rpath
+  fix the ELF file cannot be found due to escape of '\'
+  excute brp_chrpath before arch_install_post
+
 * Fri Nov 03 2023 fuanan <fuanan3@h-partners.com> - 30-45
 - check if the file is a symbolic link in brp-digest-list
 
