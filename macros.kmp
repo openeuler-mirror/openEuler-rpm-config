@@ -2,7 +2,7 @@
 
 kernel_module_package_release	1
 
-__find_requires        /usr/lib/rpm/openEuler/find-requires
+%__find_requires        /usr/lib/rpm/openEuler/find-requires
 
 
 #kernel_module_package [ -n name ] [ -v version ] [ -r release ] [ -s script ]
