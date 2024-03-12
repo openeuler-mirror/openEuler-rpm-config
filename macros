@@ -23,6 +23,46 @@
 
 %_build_id_links none
 
+# GCC toolchain
+%__cc_gcc gcc
+%__cxx_gcc g++
+%__cpp_gcc gcc -E
+ 
+# Clang toolchain
+%__cc_clang clang
+%__cxx_clang clang++
+%__cpp_clang clang-cpp
+ 
+# Default to the GCC toolchain
+#
+# It is enough to override `toolchain` macro and all relevant macro for C/C++
+# compilers will be switched. Either in the spec or in the command-line.
+#
+#     %global toolchain clang
+#
+# or:
+#
+#     rpmbuild -D "toolchain clang" …
+#
+# Inside a spec file it is also possible to determine which toolchain is in use
+# by testing the same macro. For example:
+#
+#     %if "%{toolchain}" == "gcc"
+#     BuildRequires: gcc
+#     %endif
+#
+# or:
+#
+#     %if "%{toolchain}" == "clang"
+#     BuildRequires: clang compiler-rt
+#     %endif
+#
+%toolchain gcc
+ 
+%__cc %{expand:%%{__cc_%{toolchain}}}
+%__cxx %{expand:%%{__cxx_%{toolchain}}}
+%__cpp %{expand:%%{__cpp_%{toolchain}}}
+
 #==============================================================================
 # ---- compiler flags.
 
@@ -31,7 +71,13 @@
 %build_fflags %{optflags} -fexceptions -I%{_fmoddir}
 %build_ldflags -Wl,-z,relro %{_ld_as_needed_flags} %{_ld_symbols_flags} %{_hardened_ldflags}
 
+%set_build_cc \
+  CC=%{__cc}; export CC ; \
+  CXX=%{__cxx}; export CXX ; \
+  CCC="${CCC:-%{__cxx}}" ; export CCC
+
 %set_build_flags \
+  %[ "%{toolchain}" == "gcc" ? "" : "%{set_build_cc};" ] \
   CFLAGS="${CFLAGS:-%{build_cflags}}" ; export CFLAGS ; \
   CXXFLAGS="${CXXFLAGS:-%{build_cxxflags}}" ; export CXXFLAGS ; \
   FFLAGS="${FFLAGS:-%{build_fflags}}" ; export FFLAGS ; \
@@ -146,8 +192,10 @@
 # secure options for rpmbuild
 #
 # #hardened options
-%_hardening_cflags	-specs=/usr/lib/rpm/%{_vendor}/openEuler-hardened-cc1
-%_hardening_ldflags	-Wl,-z,now -specs=/usr/lib/rpm/%{_vendor}/openEuler-hardened-ld
+%_hardening_gcc_cflags	-specs=/usr/lib/rpm/%{_vendor}/openEuler-hardened-cc1
+%_hardening_clang_cflags --config /usr/lib/rpm/%{_vendor}/openEuler-hardened-clang.cfg
+%_hardening_cflags	 %{expand:%%{_hardening_%{toolchain}_cflags}}
+%_hardening_ldflags	-Wl,-z,now %[ "%{toolchain}" == "gcc" ? "-specs=/usr/lib/rpm/%{_vendor}/openEuler-hardened-ld" : "" ]
 # Use "%undefine _hardened_build" to disable.
 %_hardened_build	1
 %_hardened_cflags	%{?_hardened_build:%{_hardening_cflags}}
@@ -179,7 +227,11 @@
 #%_ld_as_needed		1
 %_ld_as_needed_flags	%{?_ld_as_needed:-Wl,--as-needed}
 
-%__global_compiler_flags	-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-protector-strong -grecord-gcc-switches %{_hardened_cflags} 
+%_general_options         -O2 -g -grecord-gcc-switches -pipe -fstack-protector-strong %[ "%{toolchain}" == "clang" ? "-fgcc-compatible" : "" ]
+%_warning_options         -Wall -Werror=format-security
+%_preprocessor_defines    -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS
+
+%__global_compiler_flags %{_general_options} %{_warning_options} %{_preprocessor_defines} %{_hardened_cflags}
 
 # Automatically trim changelog entries after 10 years
 %_changelog_trimtime	%{lua:print(os.time() - 10 * 365 * 86400)}
