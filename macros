@@ -84,6 +84,22 @@
   FCFLAGS="${FCFLAGS:-%{build_fflags}}" ; export FCFLAGS ; \
   LDFLAGS="${LDFLAGS:-%{build_ldflags}}" ; export LDFLAGS
 
+# Automatically use set_build_flags macro for build, check, and
+# install phases.
+# Use "%undefine _auto_set_build_flags" to disable"
+# Automatically use set_build_cc macro for build, check, and
+# install phases.
+# Use "%undefine _auto_set_build_cc" to disable"
+%_auto_set_build_cc %["%{toolchain}" == "gcc" ? 0 : 1]
+%_auto_set_build_flags 0
+
+%__spec_build_pre %{___build_pre} \
+  %[%{_auto_set_build_cc} ? "%{set_build_cc}" : ""] \
+  %[%{_auto_set_build_flags} ? "%{set_build_flags}" : ""]
+%__spec_check_pre %{___build_pre} \
+  %[%{_auto_set_build_cc} ? "%{set_build_cc}" : ""] \
+  %[%{_auto_set_build_flags} ? "%{set_build_flags}" : ""]
+
 #For backwards compatibility only.
 %__global_cflags %{build_cflags}
 %__global_cxxflags %{build_cxxflags}
@@ -128,6 +144,8 @@
     [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf "${RPM_BUILD_ROOT}"\
     mkdir -p `dirname "$RPM_BUILD_ROOT"`\
     mkdir "$RPM_BUILD_ROOT"\
+    %[%{_auto_set_build_cc} ? "%{set_build_cc}" : ""]\
+    %[%{_auto_set_build_flags} ? "%{set_build_flags}" : ""]\
 %{nil}
 
 # ---- Expanded at end of %install scriptlet.
