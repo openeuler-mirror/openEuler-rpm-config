@@ -298,7 +298,7 @@
 %generic_arches %{ix86} x86_64 %{arm} aarch64
 %ldc_arches %{generic_arches}
 %valgrind_arches %{generic_arches}
-%nodejs_arches %{generic_arches}
+%nodejs_arches %{generic_arches} riscv64
 %ldc_arches %{generic_arches}
 %mono_arches %{generic_arches}
 %fpc_arches %{generic_arches}
@@ -307,11 +307,10 @@
 %GNAT_arches %{GPRbuild_arches} %{generic_arches}
 %GPRbuild_arches  %{generic_arches}
 %nim_arches	 %{generic_arches}
-%nodejs_arches	 %{generic_arches}
-%ocaml_native_compiler   %{generic_arches}
-%ocaml_natdynlink        %{generic_arches}
-%ocaml_native_profiling  %{generic_arches}
-%openblas_arches 	 %{generic_arches}
+%ocaml_native_compiler   %{generic_arches} riscv64
+%ocaml_natdynlink        %{generic_arches} riscv64
+%ocaml_native_profiling  %{generic_arches} riscv64
+%openblas_arches 	 %{generic_arches} riscv64
 
 #%ldconfig /sbin/ldconfig
 %ldconfig_post(n:) %{?ldconfig:%post -p %ldconfig %{?*} %{-n:-n %{-n*}}\
