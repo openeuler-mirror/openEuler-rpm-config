@@ -161,6 +161,7 @@
 %__brp_strip_static_archive /usr/lib/rpm/brp-strip-static-archive %{__strip}
 %__brp_python_bytecompile /usr/lib/rpm/brp-python-bytecompile "%{__python}" "%{?_python_bytecompile_errors_terminate_build}" "%{?_python_bytecompile_extra}"
 %__brp_python_hardlink /usr/lib/rpm/brp-python-hardlink
+%__brp_remove_la_files /usr/lib/rpm/brp-remove-la-files
 
 %__os_install_post    \
     %{?__brp_ldconfig} \
@@ -170,6 +171,7 @@
     %{?__brp_strip_comment_note} \
     } \
     %{?__brp_strip_static_archive} \
+    %{?__brp_remove_la_files} \
     %{?py_auto_byte_compile:%{?__brp_python_bytecompile}} \
     %{?__brp_python_hardlink} \
     %{?openEuler_delete_rpath:%{?__brp_chrpath}} \
@@ -344,7 +346,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 find $RPM_BUILD_ROOT -type f -name "*.la" -delete \
 find $RPM_BUILD_ROOT -type f -name "*.a" -delete
 
-%delete_la  find $RPM_BUILD_ROOT -type f -name "*.la" -delete
+%delete_la  %{nil}
 
 %chrpath_delete find $RPM_BUILD_ROOT/ -type f -exec file {} ';' | grep "\<ELF\>" | awk -F ':' '{print $1}' | xargs -i chrpath --delete {}
 
